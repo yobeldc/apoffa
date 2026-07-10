@@ -1,0 +1,32 @@
+name: Security Scan
+
+on:
+  push: { branches: [main] }
+  pull_request: { branches: [main] }
+  schedule: [ { cron: '0 0 * * 1' } ]
+
+jobs:
+  dependency-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20', cache: 'npm' }
+      - run: npm ci
+      - run: npm audit --audit-level=moderate
+
+  codeql:
+    runs-on: ubuntu-latest
+    permissions: { security-events: write }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v3
+        with: { languages: javascript }
+      - uses: github/codeql-action/analyze@v3
+
+  secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: trufflesecurity/trufflehog@main
+        with: { path: ./, base: main, head: HEAD, extra_args: --debug --only-verified }

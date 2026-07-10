@@ -1,0 +1,30 @@
+Chart Type,Best For,Avoid When,Complexity
+Bar Chart,Comparing categories,Continuous data,Low
+Line Chart,Trends over time,Categorical data,Low
+Area Chart,Volume/trends,Discrete comparisons,Low
+Scatter Plot,Correlations,Single variable,Medium
+Pie Chart,Part-to-whole,More than 5 categories,Low
+Donut Chart,Part-to-whole with center info,Precise comparisons,Low
+Stacked Bar,Sub-category comparison,Similar proportions,Medium
+Grouped Bar,Side-by-side comparison,Many categories,Medium
+Horizontal Bar,Long labels,Time series,Low
+Bubble Chart,3-variable correlation,Precise values,High
+Heatmap,Matrix patterns,Single values,Medium
+Treemap,Hierarchical proportions,Precise comparisons,High
+Radar Chart,Multi-variable comparison,Single variable,High
+Box Plot,Distribution comparison,Small datasets,Medium
+Violin Plot,Distribution shape,Simple audiences,High
+Histogram,Frequency distribution,Categorical data,Low
+Funnel Chart,Process stages,Non-sequential data,Medium
+Gauge Chart,Single value progress,Multiple values,Medium
+Waterfall Chart,Cumulative changes,Simple comparisons,High
+Candlestick Chart,Financial OHLC,Non-financial data,High
+Chord Diagram,Inter-relationships,Simple datasets,High
+Sankey Diagram,Flow relationships,Small datasets,High
+Sunburst Chart,Hierarchical rings,Flat data,High
+Gantt Chart,Project timelines,Non-temporal data,Medium
+Timeline,Event sequences,Quantitative data,Low
+Bullet Chart,Performance vs target,General comparison,Medium
+Parallel Coordinates,Multi-dimensional data,2-3 variables,High
+Error Bar Chart,Uncertainty display,Certain data,Medium
+Pareto Chart,80/20 analysis,Even distributions,Medium

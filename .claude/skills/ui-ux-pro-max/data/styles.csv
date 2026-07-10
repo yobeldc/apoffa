@@ -1,0 +1,20 @@
+Style,Best For,Avoid When,Notes
+Minimalism,Clean interfaces,Complex data-heavy apps,Focus on whitespace
+Glassmorphism,Modern overlays,Accessibility-critical UIs,Use with backdrop-blur
+Neumorphism,Soft tactile controls,High contrast needs,Subtle shadows
+Flat Design,Simple interfaces,Depth indication needed,No shadows/gradients
+Material Design,Android/Google ecosystem,iOS-focused apps,Follow guidelines strictly
+Brutalism,Artistic/edgy brands,Enterprise/conservative,Bold/high contrast
+Skeuomorphism,Beginner-friendly apps,Modern professional,Realistic textures
+Dark Mode,Low-light environments,Print-focused content,System preference respect
+Light Mode,Content-heavy apps,Low-light primary use,Default for readability
+High Contrast,Accessibility needs,Aesthetic-focused sites,WCAG AAA compliance
+Organic,Natural/health brands,Tech/corporate,Soft shapes/natural colors
+Geometric,Tech/modern brands,Organic/natural brands,Sharp angles/grid-based
+Vintage/Retro,Nostalgic brands,Modern tech startups,Aged textures/classic fonts
+Futuristic,Innovation/AI brands,Traditional industries,Gradient mesh/glow effects
+Corporate,Enterprise/B2B,Consumer/creative,Conservative/clean
+Playful,Children/casual brands,Serious professional,Bright colors/fun shapes
+Elegant,Luxury/premium brands,Budget/mass market,Subtle gradients/refined
+Industrial/Manufacturing,Heavy industry,Creative/digital,Rugged/functional
+

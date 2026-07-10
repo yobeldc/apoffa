@@ -1,0 +1,51 @@
+Element,Purpose,Best Practice,Common Mistake
+Navigation Bar,Site navigation,Keep consistent across pages,Hiding on scroll
+Breadcrumbs,Show location path,Auto-generated from hierarchy,Manual maintenance
+Search Bar,Find content,Prominent placement with autocomplete,Hidden in menus
+Hero Section,Primary message,Clear value proposition + CTA,Cluttered with info
+CTA Button,Drive action,Contrasting color + clear label,Generic "Click Here" text
+Footer,Secondary links,Organized link columns,Overcrowded with links
+Modal/Dialog,Focus attention,Clear close button + backdrop click,No escape route
+Dropdown Menu,Save space,Hover + click support,Only hover activation
+Tabs,Organize content,Clear active state,Lazy loading issues
+Accordion,Progressive disclosure,Smooth animation,All open by default
+Tooltip,Additional context,Hover delay to prevent flicker,Essential info only in tooltip
+Pagination,Navigate lists,Page numbers + prev/next,Infinite scroll only
+Card,Group related content,Consistent padding + shadow,Inconsistent heights
+Carousel,Showcase multiple,Manual controls + indicators,Auto-play with no pause
+Progress Bar,Show completion,Percentage or step indicator,Indeterminate without context
+Loading Spinner,Indicate activity,Show for operations > 300ms,Instant flash
+Skeleton Screen,Loading placeholder,Mimic final content shape,Generic spinner
+Toast/Notification,Transient feedback,Auto-dismiss with pause,Permanent notifications
+Alert,Important message,Distinguish severity levels,All alerts look same
+Badge,Status/Count,Small + positioned correctly,Too large/distracting
+Avatar,User identity,Consistent sizing + fallback,Broken image handling
+Chip/Tag,Categorize content,Dismissible if interactive,Non-interactive appearance
+Divider,Separate content,Subtle visual break,Overly prominent lines
+Sidebar,Secondary navigation,Collapsible on mobile,Fixed width issues
+Drawer,Off-panel content,Slide animation + backdrop,No focus trap
+Popover,Rich tooltip,Click to dismiss,Hover-only activation
+Accordion,Expandable content,One open at a time,All expanded default
+Rating,Collect feedback,Half-star support,No hover preview
+Stepper,Multi-step process,Show progress + allow back,No step validation
+Toggle Switch,Binary setting,Clear on/off state,Ambiguous labels
+Checkbox,Multi-select,Custom styled + accessible,Small touch target
+Radio Button,Single select,Mutually exclusive,Allow unselect
+Date Picker,Select date,Calendar + manual input,Only calendar picker
+Time Picker,Select time,12/24 hour support,No manual input
+File Upload,Send files,Drag + drop + progress,No file size validation
+Rich Text Editor,Formatted input,Markdown support,Bloated WYSIWYG
+Data Table,Display structured data,Sortable columns + pagination,Horizontal scroll
+Filter Panel,Refine results,Sticky + clear all option,Hidden behind menu
+Sort Control,Order results,Multiple sort options,Only single sort
+Empty State,No data view,Helpful message + action,Sad/unclear messaging
+Error Page,Handle failures,Helpful navigation options,Technical error codes
+Confirmation Dialog,Prevent mistakes,Clear action descriptions,Vague "Are you sure?"
+Onboarding Tutorial,Guide new users,Skippable + progress,Forced long tutorial
+Help Center,Self-service support,Search + categorized,Only contact form
+Settings Panel,User preferences,Searchable + organized,Scattered preferences
+User Menu,Account actions,Clear logout option,Hidden sign out
+Notification Center,Alert history,Mark all read + settings,Unread badge persistence
+Theme Toggle,Dark/light mode,System preference default,No persistence
+Language Selector,Localization,Full language names,Flag icons only
+

@@ -1,0 +1,27 @@
+Product Type,Primary Users,Key Features,Design Considerations
+SaaS Dashboard,Business users,Analytics/KPIs/Reports,Data density/Customization
+SaaS Landing,Prospects,Features/Pricing/Social proof,Conversion optimization
+SaaS Onboarding,New users,Tutorial/Setup/Progress,Friction reduction/Guidance
+SaaS Settings,Admin users,Configuration/Permissions,Complexity management
+SaaS Billing,Finance users,Invoices/Payments/Plans,Clarity/Trust signals
+E-commerce Shop,Shoppers,Catalog/Search/Cart,Product discovery/Checkout flow
+E-commerce Product,Shoppers,Images/Reviews/Specs,Visual appeal/Social proof
+E-commerce Checkout,Shoppers,Payment/Shipping/Confirm,Trust/Progress indication
+Marketplace,Buyers/Sellers,Listings/Messaging/Reviews,Trust/Verification
+Social Network,General users,Feed/Profile/Messaging,Engagement/Content discovery
+Content Platform,Readers,Articles/Search/Categories,Readability/Navigation
+Portfolio Site,Clients/Employers,Projects/Skills/Contact,Visual impact/Credibility
+Admin Panel,Internal teams,CRUD/Analytics/Users,Efficiency/Data density
+Mobile App,Mobile users,Touch gestures/Offline/Push,Performance/Thumb zones
+Documentation,Developers,Search/Code examples/Navigation,Scanability/Code highlighting
+API Portal,Developers,Endpoints/Auth/Testing,Clarity/Interactive examples
+Learning Platform,Students,Courses/Progress/Assessments,Motivation/Progress tracking
+Healthcare App,Patients,Appointments/Records/Chat,Privacy/Accessibility
+Finance App,Consumers,Accounts/Transfers/Budgets,Security/Trust indicators
+Real Estate,Home buyers,Listings/Maps/Contact,Visuals/Location data
+Travel Booking,Travelers,Search/Compare/Book,Visual appeal/Trust
+Restaurant,Customers,Menu/Order/Delivery,Visuals/Speed
+Event Platform,Attendees,Events/Tickets/Schedule,Discovery/Urgency
+Job Board,Job seekers,Listings/Search/Apply,Filtering/Resume management
+Community Forum,Members,Topics/Search/Profiles,Organization/Moderation
+

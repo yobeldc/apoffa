@@ -1,0 +1,44 @@
+Section,Element,Purpose,Content Type
+Hero,Headline,Grab attention,Value proposition
+Hero,Subheadline,Explain offering,Brief description
+Hero,CTA Button,Drive action,Primary conversion
+Hero,Visual,Illustrate product,Image/Video/Animation
+Hero,Social Proof,Build trust,Logos/Stats/Reviews
+Features,Section Title,Introduce features,Benefit-focused heading
+Features,Feature Cards,Show capabilities,Icon + Title + Description
+Features,Visual Demo,Illustrate usage,Screenshot/Video
+How It Works,Steps,Explain process,Numbered steps
+How It Works,Visual,Show workflow,Diagram/Animation
+How It Works,CTA,Drive signup,Action button
+Testimonials,Quotes,Build credibility,Customer quotes
+Testimonials,Photos,Add authenticity,Customer headshots
+Testimonials,Credentials,Establish trust,Names/Roles/Companies
+Pricing,Tiers,Show options,Plan cards
+Pricing,Features List,Compare plans,Feature checklist
+Pricing,CTA,Convert visitors,Sign up buttons
+Pricing,FAQ,Address objections,Common questions
+FAQ,Questions,Address concerns,Categorized Q&A
+FAQ,Search,Help find answers,Search input
+CTA Section,Headline,Create urgency,Compelling message
+CTA Section,Button,Drive conversion,Primary CTA
+CTA Section,Incentive,Reduce friction,Bonus/Discount/Free trial
+Footer,Links,Enable navigation,Site sections
+Footer,Legal,Meet requirements,Terms/Privacy/Cookies
+Footer,Social,Build community,Social media links
+Footer,Newsletter,Capture leads,Email signup
+Trust Badges,Security,Reduce anxiety,Security certifications
+Trust Badges,Compliance,Meet standards,GDPR/SOC2/ISO
+Trust Badges,Partners,Build credibility,Partner logos
+Comparison,Table,Show advantages,Feature comparison
+Comparison,Highlight,Stand out,Best value indicator
+Stats Counter,Numbers,Show scale,Key metrics
+Stats Counter,Context,Explain significance,What numbers mean
+Integrations,Logos,Show ecosystem,Connected services
+Integrations,Description,Explain connectivity,How integrations work
+Use Cases,Scenarios,Target segments,Industry-specific examples
+Use Cases,Results,Show value,Outcome metrics
+Team,Photos,Humanize brand,Team member photos
+Team,Bios,Build trust,Names/Roles/Background
+Blog Preview,Articles,Show expertise,Recent blog posts
+Blog Preview,CTA,Drive engagement,Read more links
+

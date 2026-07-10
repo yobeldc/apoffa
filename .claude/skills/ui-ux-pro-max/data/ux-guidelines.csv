@@ -1,0 +1,48 @@
+Category,Guideline,Priority,Rationale
+Navigation,Keep main nav visible at all times,High,Users need orientation
+Navigation,Use breadcrumbs for deep hierarchies,Medium,Show path and enable backtracking
+Navigation,Highlight current location,High,Prevent user confusion
+Navigation,Provide search for large sites,High,Alternative to browsing
+Navigation,Limit top-level items to 7±2,Medium,Cognitive load limits
+Navigation,Use descriptive labels,High,Avoid vague terms like "Products"
+Forms,Label every input clearly,High,Required for accessibility
+Forms,Group related fields,High,Visual organization
+Forms,Show inline validation,High,Immediate feedback
+Forms,Use appropriate input types,High,Mobile keyboard optimization
+Forms,Mark optional vs required,High,Reduce user uncertainty
+Forms,Enable autofill,Medium,Speed up completion
+Forms,Show progress for multi-step,Medium,Set expectations
+Forms,Provide helpful error messages,High,Explain how to fix
+Feedback,Show loading states,High,Confirm system is working
+Feedback,Confirm successful actions,High,Reassure users
+Feedback,Display errors prominently,High,Cannot be missed
+Feedback,Use appropriate tone,Medium,Match context seriousness
+Feedback,Provide clear next steps,High,Guide user forward
+Content,Use clear simple language,High,Broad audience comprehension
+Content,Break up long text,High,Scannable content
+Content,Use headings hierarchically,High,Document structure
+Content,Front-load important info,High,Inverted pyramid style
+Content,Provide alt text for images,High,Accessibility requirement
+Content,Use consistent terminology,High,Avoid confusion
+Layout,Maintain consistent spacing,High,Visual rhythm
+Layout,Use a grid system,High,Alignment and order
+Layout,Design for responsive,High,Multi-device support
+Layout,Establish clear visual hierarchy,High,Guide attention
+Layout,Keep important content above fold,Medium,Immediate visibility
+Layout,Use whitespace generously,Medium,Reduce clutter
+Accessibility,Ensuresufficient color contrast,High,WCAG requirement
+Accessibility,Support keyboard navigation,High,WCAG requirement
+Accessibility,Provide focus indicators,High,WCAG requirement
+Accessibility,Use semantic HTML,High,Screen reader support
+Accessibility,Test with assistive tech,High,Verify implementation
+Accessibility,Don't rely on color alone,High,Color blindness
+Performance,Optimize images,High,Fast loading
+Performance,Minimize JavaScript,High,Fast interaction
+Performance,Use lazy loading,Medium,Defer non-critical
+Performance,Implement caching,Medium,Reduce server load
+Mobile,Use touch-friendly targets,High,44px minimum
+Mobile,Prevent zoom on inputs,High,Better UX
+Mobile,Test on real devices,High,Actual performance
+Mobile,Handle orientation changes,Medium,Responsive design
+Mobile,Optimize for thumb reach,Medium,Bottom nav/CTAs
+

@@ -1,0 +1,32 @@
+Principle,Description,Application
+Clarity,Every element should have a clear purpose,Remove decorative elements that don't serve function
+Consistency,Use same patterns throughout,Standardize component usage across pages
+Hierarchy,Guide eye through importance,Size/color/spacing indicate importance
+Feedback,Inform users about actions,Loading states/success messages/error alerts
+Forgiveness,Allow easy error recovery,Undo options/confirmations/auto-save
+Efficiency,Minimize steps to complete tasks,Shortcuts/batch actions/smart defaults
+Accessibility,Usable by everyone,WCAG compliance/keyboard navigation/screen readers
+Simplicity,Reduce cognitive load,Clear language/minimal choices/familiar patterns
+Visual Hierarchy,Guide attention with design,Contrast/size/color/position for emphasis
+Affordance,Elements should suggest interaction,Buttons look clickable/inputs look fillable
+Mapping,Controls relate to their effect,Natural spatial relationships
+Constraints,Prevent errors through design,Disable invalid options/validate input
+Recognition over recall,Show options don't require memory,Dropdowns vs free text
+Flexibility,Accommodate different skill levels,Both novice and expert paths
+Aesthetic,Beautiful design builds trust,Polished visuals/consistent spacing/quality imagery
+Chunking,Group related information,Card-based layouts/sectioned forms
+Progressive Disclosure,Show information gradually,Expandable sections/wizard flows
+Proximity,Related elements belong together,Group form labels with inputs
+Alignment,Elements should align to grid,Consistent margins/invisible grid lines
+Repetition,Repeat patterns for cohesion,Same button styles/consistent colors
+Contrast,Differentiate through difference,CTAs stand out/text is readable
+Balance,Distribute visual weight evenly,Symmetrical or intentional asymmetrical layouts
+White Space,Let content breathe,Generous padding/margins between elements
+Typography,Text should be readable,Appropriate sizes/line heights/contrast
+Color Theory,Use colors purposefully,Brand colors/semantic colors/emphasis
+Mobile First,Design for smallest screen first,Responsive breakpoints/touch targets
+Performance,Fast load times matter,Optimize images/minimize JS/use caching
+Error Prevention,Stop errors before they happen,Validation/formatting/defaults
+User Control,Users should feel in control,Clear navigation/exit points/customization
+Delight,Add moments of surprise,Animations/micro-interactions/personal touches
+

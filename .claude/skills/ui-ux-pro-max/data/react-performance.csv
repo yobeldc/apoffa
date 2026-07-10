@@ -1,0 +1,27 @@
+Technique,Use Case,Implementation,Impact
+React.memo,Prevent unnecessary re-renders,Wrap component with React.memo,Medium
+useMemo,Cache expensive computations,Memoize derived values,Medium
+useCallback,Stable function references,Memoize callbacks passed to children,Medium
+Lazy Loading,Reduce initial bundle,Use React.lazy + Suspense,High
+Code Splitting,Split by route,Use dynamic imports per route,High
+Virtualization,Long lists,Use react-window or react-virtualized,High
+useTransition,Non-urgent updates,Wrap state updates with useTransition,Medium
+useDeferredValue,Defer re-renders,Use for rapidly changing values,Medium
+Optimize Context,Prevent cascading renders,Split context by concern,High
+Web Workers,Heavy computations,Offload work to background threads,Medium
+Preconnect,External resources,Add <link rel="preconnect">,Low
+Prefetch,Anticipated navigation,Use <link rel="prefetch"> or router,Medium
+Preload,Critical resources,Use <link rel="preload"> for above-fold,High
+Image Optimization,Large images,Use WebP/Lazy loading/Responsive images,High
+Font Loading,Custom fonts,Use font-display: swap/Preload critical fonts,Medium
+Tree Shaking,Remove dead code,Enable in bundler/Use ES modules,High
+Bundle Analysis,Find large dependencies,Use @next/bundle-analyzer,High
+Server Components,Reduce client JS,Use React Server Components,High
+Streaming SSR,Progressive rendering,Use renderToPipeableStream,High
+Service Worker,Offline support,Implement with Workbox,Medium
+Memoize Selectors,Complex state derivation,Use reselect or similar,Medium
+Debounce Inputs,Rapid user input,Debounce search/filter inputs,Low
+Throttle Events,Frequent events,Throttle scroll/resize handlers,Low
+Avoid Inline Objects,Prevent re-renders,Define objects outside render,Low
+Proper Keys,List rendering,Use stable unique IDs as keys,Medium
+

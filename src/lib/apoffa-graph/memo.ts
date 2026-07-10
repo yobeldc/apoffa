@@ -1,104 +1,60 @@
 /**
- * Research memo generation for Apoffa Graph.
- *
- * Generates structured research memos from extracted case data.
+ * Memoization utilities for expensive graph operations.
  */
 
-import type { ApoffaGraphDecisionExtraction } from "./schema";
-import { prisma } from "../db";
-import { buildMemoPrompt } from "./prompt";
+import { logger } from '@/lib/logger';
 
-export interface MemoOptions {
-  caseDecisionIds: string[];
-  includeSimilarCases?: boolean;
-  includeTrends?: boolean;
-  focusIssues?: string[];
-}
+const log = logger.child({ module: 'apoffa-graph:memo' });
 
-export interface ResearchMemo {
-  title: string;
-  generatedAt: string;
-  disclaimer: string;
-  sections: Array<{
-    heading: string;
-    content: string;
-    sourceCaseIds: string[];
-    confidence: number;
-  }>;
-  citations: Array<{
-    caseId: string;
-    nomorPutusan: string | null;
-    sourceUrl: string;
-    field: string;
-    quote: string | null;
-  }>;
-  confidenceWarnings: string[];
-}
+export class LRUCache<K, V> {
+  private cache = new Map<K, { value: V; at: number }>();
+  constructor(private maxSize = 100, private ttlMs = 5 * 60 * 1000) {}
 
-/**
- * Generate a research memo from extracted case data.
- */
-export async function generateResearchMemo(options: MemoOptions): Promise<ResearchMemo> {
-  const extractions = await prisma.apoffaGraphExtraction.findMany({
-    where: { caseDecisionId: { in: options.caseDecisionIds } },
-    include: {
-      caseDecision: {
-        select: { nomorPutusan: true, sourceUrl: true },
-      },
-    },
-  });
-
-  const parsedExtractions: ApoffaGraphDecisionExtraction[] = extractions.map((e) =>
-    JSON.parse(e.fullJson)
-  );
-
-  const sections: ResearchMemo["sections"] = [];
-  const citations: ResearchMemo["citations"] = [];
-  const confidenceWarnings: string[] = [];
-
-  // Overview section
-  sections.push({
-    heading: "Overview",
-    content: `Analysis covers ${parsedExtractions.length} case(s).`,
-    sourceCaseIds: options.caseDecisionIds,
-    confidence: 1.0,
-  });
-
-  // Build citation index
-  for (const e of extractions) {
-    const parsed = JSON.parse(e.fullJson);
-    if (parsed.evidence_spans) {
-      for (const span of parsed.evidence_spans) {
-        citations.push({
-          caseId: e.caseDecisionId,
-          nomorPutusan: e.caseDecision.nomorPutusan,
-          sourceUrl: e.caseDecision.sourceUrl ?? "",
-          field: span.target_path,
-          quote: span.quote,
-        });
-      }
-    }
+  get(key: K): V | undefined {
+    const e = this.cache.get(key);
+    if (!e) return undefined;
+    if (Date.now() - e.at > this.ttlMs) { this.cache.delete(key); return undefined; }
+    e.at = Date.now();
+    return e.value;
   }
 
-  // Check for low-confidence extractions
-  for (const ex of parsedExtractions) {
-    const avgConfidence =
-      Object.values(ex.extraction_confidence ?? {}).reduce((a, b) => a + b, 0) /
-      Math.max(Object.keys(ex.extraction_confidence ?? {}).length, 1);
-    if (avgConfidence < 0.5) {
-      confidenceWarnings.push(
-        `Low average confidence (${(avgConfidence * 100).toFixed(0)}%) for case ${ex.nomor_putusan ?? ex.case_decision_id}`
-      );
+  set(key: K, value: V): void {
+    if (this.cache.size >= this.maxSize && !this.cache.has(key)) {
+      const first = this.cache.keys().next().value;
+      if (first !== undefined) this.cache.delete(first);
     }
+    this.cache.set(key, { value, at: Date.now() });
   }
 
-  return {
-    title: `Research Memo — ${parsedExtractions.length} Cases`,
-    generatedAt: new Date().toISOString(),
-    disclaimer:
-      "This memo was generated automatically from extracted case data. It does not constitute legal advice. Always verify against original sources.",
-    sections,
-    citations,
-    confidenceWarnings,
-  };
+  delete(key: K): void { this.cache.delete(key); }
+  clear(): void { this.cache.clear(); }
+  get size(): number { return this.cache.size; }
+}
+
+const simCache = new LRUCache<string, number>(1000, 10 * 60 * 1000);
+
+function pairKey(a: string, b: string): string { return a < b ? `${a}::${b}` : `${b}::${a}`; }
+
+export function memoizedSimilarity(a: string, b: string, compute: (x: string, y: string) => number): number {
+  const k = pairKey(a, b);
+  const c = simCache.get(k);
+  if (c !== undefined) return c;
+  const v = compute(a, b);
+  simCache.set(k, v);
+  return v;
+}
+
+const statsCache = new LRUCache<string, unknown>(50, 30 * 1000);
+
+export async function memoizedGraphStats<T>(caseId: string, compute: () => Promise<T>): Promise<T> {
+  const c = statsCache.get(caseId) as T | undefined;
+  if (c !== undefined) { log.debug({ caseId }, 'Cache hit'); return c; }
+  const s = await compute();
+  statsCache.set(caseId, s);
+  return s;
+}
+
+export function invalidateGraphStats(caseId: string): void {
+  statsCache.delete(caseId);
+  log.debug({ caseId }, 'Cache invalidated');
 }

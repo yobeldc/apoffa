@@ -1,108 +1,41 @@
 /**
- * Export utilities for Apoffa Graph.
- *
- * Supports CSV and JSON export of extracted case data.
+ * Graph export utilities for APOffa.
  */
 
-import { prisma } from "../db";
+import { logger } from '@/lib/logger';
+import type { EntityNode, EntityEdge, GraphExportOptions } from './ui-types';
 
-export interface ExportFilters {
-  klasifikasi?: string;
-  tahunMin?: number;
-  tahunMax?: number;
-  pengadilan?: string;
-  status?: string;
+const log = logger.child({ module: 'apoffa-graph:export' });
+
+export function exportToJSON(nodes: EntityNode[], edges: EntityEdge[], options?: GraphExportOptions): string {
+  log.info({ nodes: nodes.length, edges: edges.length }, 'Exporting JSON');
+  return JSON.stringify({ version: '1.0', exportedAt: new Date().toISOString(), nodes: options?.includeMetadata !== false ? nodes : nodes.map(({ id, name, type }) => ({ id, name, type })), edges: options?.includeMetadata !== false ? edges : edges.map(({ id, source, target, type }) => ({ id, source, target, type })) }, null, 2);
 }
 
-/**
- * Export Apoffa Graph data to CSV format.
- */
-export async function exportApoffaGraphToCsv(filters: ExportFilters): Promise<{
-  csv: string;
-  filename: string;
-  rowCount: number;
-}> {
-  const where: Record<string, unknown> = {};
-  if (filters.status) where.apoffaGraphStatus = filters.status;
-
-  const cases = await prisma.caseDecision.findMany({
-    where,
-    include: {
-      apoffaGraphExtraction: true,
-      decisionJudges: { include: { judge: true } },
-      decisionLegalIssues: { include: { legalIssue: true } },
-      decisionArticles: { include: { statuteArticle: { include: { statute: true } } } },
-      sentences: true,
-    },
-    take: 1000,
-  });
-
-  // Build CSV header
-  const headers = [
-    "case_decision_id",
-    "nomor_putusan",
-    "pengadilan",
-    "klasifikasi",
-    "tahun",
-    "status",
-    "extraction_method",
-    "judge_count",
-    "issue_count",
-    "article_count",
-    "sentence_count",
-  ];
-
-  const rows = cases.map((c) => [
-    c.id,
-    c.nomorPutusan ?? "",
-    c.pengadilan ?? "",
-    c.klasifikasi ?? "",
-    String(c.tahun ?? ""),
-    c.apoffaGraphStatus,
-    c.apoffaGraphExtraction?.extractionMethod ?? "",
-    String(c.decisionJudges.length),
-    String(c.decisionLegalIssues.length),
-    String(c.decisionArticles.length),
-    String(c.sentences?.length ?? 0),
-  ]);
-
-  const csv = [headers.join(","), ...rows.map((r) => r.map((v) => `"${String(v).replace(/"/g, '\\"')}"`).join(","))].join("\n");
-
-  return {
-    csv,
-    filename: `apoffa-graph-export-${new Date().toISOString().slice(0, 10)}.csv`,
-    rowCount: cases.length,
-  };
+export function exportToCSV(nodes: EntityNode[], edges: EntityEdge[]): { nodes: string; edges: string } {
+  log.info({ nodes: nodes.length, edges: edges.length }, 'Exporting CSV');
+  const nodeCSV = ['id,name,type,relevance', ...nodes.map(n => `${n.id},"${n.name.replace(/"/g, '""')}",${n.type},${n.relevance ?? ''}`)].join('\n');
+  const edgeCSV = ['id,source,target,type,label', ...edges.map(e => `${e.id},${e.source},${e.target},${e.type},${e.label ?? ''}`)].join('\n');
+  return { nodes: nodeCSV, edges: edgeCSV };
 }
 
-/**
- * Export Apoffa Graph data to JSON format.
- */
-export async function exportApoffaGraphToJson(filters: ExportFilters): Promise<{
-  json: string;
-  filename: string;
-  rowCount: number;
-}> {
-  const where: Record<string, unknown> = {};
-  if (filters.status) where.apoffaGraphStatus = filters.status;
+export function exportToGraphML(nodes: EntityNode[], edges: EntityEdge[]): string {
+  log.info({ nodes: nodes.length, edges: edges.length }, 'Exporting GraphML');
+  const nodeXML = nodes.map(n => `    <node id="${n.id}"><data key="name">${escapeXml(n.name)}</data><data key="type">${n.type}</data>${n.relevance ? `<data key="relevance">${n.relevance}</data>` : ''}</node>`).join('\n');
+  const edgeXML = edges.map(e => `    <edge id="${e.id}" source="${e.source}" target="${e.target}"><data key="type">${e.type}</data>${e.label ? `<data key="label">${escapeXml(e.label)}</data>` : ''}</edge>`).join('\n');
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns">
+  <key id="name" for="node" attr.name="name" attr.type="string"/>
+  <key id="type" for="all" attr.name="type" attr.type="string"/>
+  <key id="relevance" for="node" attr.name="relevance" attr.type="double"/>
+  <key id="label" for="edge" attr.name="label" attr.type="string"/>
+  <graph id="G" edgedefault="undirected">
+${nodeXML}
+${edgeXML}
+  </graph>
+</graphml>`;
+}
 
-  const cases = await prisma.caseDecision.findMany({
-    where,
-    include: {
-      apoffaGraphExtraction: true,
-      decisionJudges: { include: { judge: true } },
-      decisionLegalIssues: { include: { legalIssue: true } },
-      decisionArticles: { include: { statuteArticle: { include: { statute: true } } } },
-      sentences: true,
-    },
-    take: 1000,
-  });
-
-  const json = JSON.stringify(cases, null, 2);
-
-  return {
-    json,
-    filename: `apoffa-graph-export-${new Date().toISOString().slice(0, 10)}.json`,
-    rowCount: cases.length,
-  };
+function escapeXml(s: string): string {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
 }

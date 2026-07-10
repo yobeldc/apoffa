@@ -1,0 +1,18 @@
+name: Infrastructure Validate
+
+on:
+  pull_request: { paths: ['infra/**','*.tf','*.tfvars'] }
+  push: { branches: [main], paths: ['infra/**','*.tf','*.tfvars'] }
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with: { terraform_version: '1.7.0' }
+      - run: cd infra && terraform fmt -check -recursive
+      - run: cd infra/cloudflare && terraform init -backend=false && terraform validate
+      - uses: bridgecrewio/checkov-action@master
+        with: { directory: infra/, framework: terraform, output_format: cli, soft_fail: true }

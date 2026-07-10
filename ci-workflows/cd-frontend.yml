@@ -1,0 +1,28 @@
+name: CD Frontend
+
+on:
+  push:
+    branches: [main]
+    paths: ['src/**','public/**','package.json','next.config.*','tailwind.config.*']
+  workflow_dispatch:
+    inputs:
+      environment: { description: 'Env', required: true, default: 'staging', type: choice, options: [staging, production] }
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20', cache: 'npm' }
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run build
+        env: { NEXT_PUBLIC_API_URL: '${{ secrets.NEXT_PUBLIC_API_URL }}', NEXT_PUBLIC_APP_URL: '${{ secrets.NEXT_PUBLIC_APP_URL }}' }
+      - uses: cloudflare/pages-action@v1
+        with: { apiToken: '${{ secrets.CLOUDFLARE_API_TOKEN }}', accountId: '${{ secrets.CLOUDFLARE_ACCOUNT_ID }}', projectName: apoffa, directory: out, gitHubToken: '${{ secrets.GITHUB_TOKEN }}' }
+      - if: success()
+        uses: slackapi/slack-github-action@v1
+        with: { payload: '{"text":"Frontend deployed"}' }
+        env: { SLACK_WEBHOOK_URL: '${{ secrets.SLACK_WEBHOOK_URL }}' }

@@ -1,0 +1,28 @@
+name: CD Worker
+
+on:
+  push:
+    branches: [main]
+    paths: ['src/lib/apoffa-graph/**','src/lib/rag/**','src/lib/search/**','wrangler.toml']
+  workflow_dispatch:
+    inputs:
+      environment: { description: 'Env', required: true, default: 'staging', type: choice, options: [staging, production] }
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20', cache: 'npm' }
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run test:ci
+      - run: npm run build:worker
+      - uses: cloudflare/wrangler-action@v3
+        with: { apiToken: '${{ secrets.CLOUDFLARE_API_TOKEN }}', accountId: '${{ secrets.CLOUDFLARE_ACCOUNT_ID }}', command: 'deploy --env ${{ github.event.inputs.environment || ''staging'' }}' }
+      - if: success()
+        uses: slackapi/slack-github-action@v1
+        with: { payload: '{"text":"Worker deployed"}' }
+        env: { SLACK_WEBHOOK_URL: '${{ secrets.SLACK_WEBHOOK_URL }}' }

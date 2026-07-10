@@ -1,9 +1,15 @@
-# .dockerignore
 node_modules
 npm-debug.log
 .next
-*.db
-.env
+.git
+.env.local
 .env.*.local
-.vercel
-.turbo
+coverage
+*.db
+*.db-journal
+data/raw
+data/pdf
+data/cache
+storage
+.claude/
+.tokensave/

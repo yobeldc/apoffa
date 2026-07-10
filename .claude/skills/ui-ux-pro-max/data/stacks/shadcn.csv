@@ -1,0 +1,48 @@
+Component,Source,Category,Installation
+Accordion,@radix-ui/react-accordion,Layout,npx shadcn add accordion
+Alert,internal,Feedback,npx shadcn add alert
+AlertDialog,@radix-ui/react-alert-dialog,Overlay,npx shadcn add alert-dialog
+AspectRatio,@radix-ui/react-aspect-ratio,Layout,npx shadcn add aspect-ratio
+Avatar,@radix-ui/react-avatar,Data Display,npx shadcn add avatar
+Badge,internal,Data Display,npx shadcn add badge
+Breadcrumb,internal,Navigation,npx shadcn add breadcrumb
+Button,@radix-ui/react-slot,Form,npx shadcn add button
+Calendar,react-day-picker,Form,npx shadcn add calendar
+Card,internal,Layout,npx shadcn add card
+Carousel,embla-carousel-react,Data Display,npx shadcn add carousel
+Checkbox,@radix-ui/react-checkbox,Form,npx shadcn add checkbox
+Collapsible,@radix-ui/react-collapsible,Layout,npx shadcn add collapsible
+Combobox,internal,Form,npx shadcn add combobox
+Command,cmdk,Form,npx shadcn add command
+ContextMenu,@radix-ui/react-context-menu,Overlay,npx shadcn add context-menu
+Dialog,@radix-ui/react-dialog,Overlay,npx shadcn add dialog
+Drawer,vaul,Overlay,npx shadcn add drawer
+DropdownMenu,@radix-ui/react-dropdown-menu,Overlay,npx shadcn add dropdown-menu
+Form,react-hook-form,Form,npx shadcn add form
+HoverCard,@radix-ui/react-hover-card,Overlay,npx shadcn add hover-card
+Input,internal,Form,npx shadcn add input
+InputOTP,input-otp,Form,npx shadcn add input-otp
+Label,@radix-ui/react-label,Form,npx shadcn add label
+Menubar,@radix-ui/react-menubar,Navigation,npx shadcn add menubar
+NavigationMenu,@radix-ui/react-navigation-menu,Navigation,npx shadcn add navigation-menu
+Pagination,internal,Navigation,npx shadcn add pagination
+Popover,@radix-ui/react-popover,Overlay,npx shadcn add popover
+Progress,@radix-ui/react-progress,Feedback,npx shadcn add progress
+RadioGroup,@radix-ui/react-radio-group,Form,npx shadcn add radio-group
+Resizable,react-resizable-panels,Layout,npx shadcn add resizable
+ScrollArea,@radix-ui/react-scroll-area,Layout,npx shadcn add scroll-area
+Select,@radix-ui/react-select,Form,npx shadcn add select
+Separator,@radix-ui/react-separator,Layout,npx shadcn add separator
+Sheet,internal,Overlay,npx shadcn add sheet
+Skeleton,internal,Feedback,npx shadcn add skeleton
+Slider,@radix-ui/react-slider,Form,npx shadcn add slider
+Sonner,sonner,Feedback,npx shadcn add sonner
+Switch,@radix-ui/react-switch,Form,npx shadcn add switch
+Table,internal,Data Display,npx shadcn add table
+Tabs,@radix-ui/react-tabs,Navigation,npx shadcn add tabs
+Textarea,internal,Form,npx shadcn add textarea
+Toast,@radix-ui/react-toast,Feedback,npx shadcn add toast
+Toggle,@radix-ui/react-toggle,Form,npx shadcn add toggle
+ToggleGroup,@radix-ui/react-toggle-group,Form,npx shadcn add toggle-group
+Tooltip,@radix-ui/react-tooltip,Overlay,npx shadcn add tooltip
+

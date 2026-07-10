@@ -1,0 +1,67 @@
+Component,HTML Equivalent,Svelte Specific,Notes
+ SvelteComponent, <div>, true, Dynamic component
+ SvelteSelf, <div>, true, Recursive component
+ SvelteWindow, window, true, Window bindings
+ SvelteDocument, document, true, Document bindings
+ SvelteBody, <body>, true, Body bindings
+ SvelteHead, <head>, true, Head content
+ SvelteFragment, <>, true, Fragment
+ if, {condition && }, true, Conditional rendering
+ each, .map(), true, List rendering
+ await, Promise, true, Async rendering
+ key, key=, true, Keyed updates
+ html, dangerouslySetInnerHTML, true, HTML rendering
+ debug, debugger, true, Debug helper
+ on:click, onclick, true, Event listener
+ bind:value, value, true, Two-way binding
+ bind:this, ref, true, Element binding
+ bind:group, name, true, Group binding
+ bind:checked, checked, true, Checkbox binding
+ bind:files, files, true, File input binding
+ bind:innerHTML, contentEditable, true, Content binding
+ bind:scrollX, scrollLeft, true, Horizontal scroll
+ bind:scrollY, scrollTop, true, Vertical scroll
+ bind:clientWidth, clientWidth, true, Width binding
+ bind:clientHeight, clientHeight, true, Height binding
+ bind:offsetWidth, offsetWidth, true, Offset width
+ bind:offsetHeight, offsetHeight, true, Offset height
+ bind:naturalWidth, naturalWidth, true, Image width
+ bind:naturalHeight, naturalHeight, true, Image height
+ class:, className, true, Conditional classes
+ style:, style, true, Inline styles
+ use:, use:action, true, Svelte actions
+ transition:, CSS transitions, true, Enter/exit transitions
+ in:, CSS transition, true, Enter transition
+ out:, CSS transition, true, Exit transition
+ animate:, CSS animation, true, List animation
+ self, event.target, true, Event modifier
+ stopPropagation, e.stopPropagation(), true, Event modifier
+ preventDefault, e.preventDefault(), true, Event modifier
+ passive, { passive: true }, true, Event modifier
+ nonpassive, { passive: false }, true, Event modifier
+ capture, { capture: true }, true, Event modifier
+ once, { once: true }, true, Event modifier
+ trusted, isTrusted, true, Event modifier
+ clipboard, Clipboard API, false, Clipboard operations
+ cubicIn, easing, true, Easing function
+ cubicOut, easing, true, Easing function
+ cubicInOut, easing, true, Easing function
+ elasticIn, easing, true, Easing function
+ elasticOut, easing, true, Easing function
+ elasticInOut, easing, true, Easing function
+ fade, CSS opacity, true, Fade transition
+ fly, CSS transform, true, Fly transition
+ slide, CSS height, true, Slide transition
+ scale, CSS transform, true, Scale transition
+ draw, SVG stroke, true, SVG draw transition
+ crossfade, CSS, true, Crossfade transition
+ blur, CSS filter, true, Blur transition
+ flip, CSS transform, true, FLIP animation
+ tick, Promise.resolve(), true, State flush
+ spring, physics, true, Spring animation
+ tweened, interpolation, true, Tweened store
+ writable, useState, true, Writable store
+ readable, useState, true, Readable store
+ derived, useMemo, true, Derived store
+ get, .get(), true, Store value
+

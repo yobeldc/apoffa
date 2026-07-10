@@ -1,0 +1,75 @@
+Component,HTML Equivalent,Astro Specific,Notes
+ Astro.head, <head>, true, Astro head component for meta tags
+ Astro.props, props, true, Access passed props
+ Content, <article>, true, Content slot component
+ Fragment, <>, true, Astro Fragment wrapper
+ a, <a>, false, Standard anchor
+div, <div>, false, Standard container
+ span, <span>, false, Inline element
+ img, <img>, false, Image element
+ header, <header>, false, Semantic header
+ footer, <footer>, false, Semantic footer
+ nav, <nav>, false, Navigation
+ section, <section>, false, Section container
+ article, <article>, false, Article content
+ aside, <aside>, false, Sidebar content
+ main, <main>, false, Main content area
+ button, <button>, false, Interactive button
+ form, <form>, false, Form container
+ input, <input>, false, Form input
+ textarea, <textarea>, false, Multi-line input
+ select, <select>, false, Dropdown select
+ option, <option>, false, Select option
+ label, <label>, false, Form label
+ ul, <ul>, false, Unordered list
+ ol, <ol>, false, Ordered list
+ li, <li>, false, List item
+ table, <table>, false, Data table
+ thead, <thead>, false, Table header
+ tbody, <tbody>, false, Table body
+ tr, <tr>, false, Table row
+ th, <th>, false, Table header cell
+ td, <td>, false, Table data cell
+ p, <p>, false, Paragraph
+ h1, <h1>, false, Heading 1
+ h2, <h2>, false, Heading 2
+ h3, <h3>, false, Heading 3
+ h4, <h4>, false, Heading 4
+ h5, <h5>, false, Heading 5
+ h6, <h6>, false, Heading 6
+ strong, <strong>, false, Bold text
+ em, <em>, false, Italic text
+ small, <small>, false, Small text
+ br, <br>, false, Line break
+ hr, <hr>, false, Horizontal rule
+ script, <script>, false, JavaScript
+ style, <style>, false, CSS styles
+ link, <link>, false, External resource
+ meta, <meta>, false, Metadata
+ title, <title>, false, Page title
+ base, <base>, false, Base URL
+ source, <source>, false, Media source
+ video, <video>, false, Video player
+ audio, <audio>, false, Audio player
+ iframe, <iframe>, false, Embedded frame
+ canvas, <canvas>, false, Drawing canvas
+ svg, <svg>, false, Scalable vector graphics
+ path, <path>, false, SVG path
+ circle, <circle>, false, SVG circle
+ rect, <rect>, false, SVG rectangle
+ line, <line>, false, SVG line
+ polyline, <polyline>, false, SVG polyline
+ polygon, <polygon>, false, SVG polygon
+ text, <text>, false, SVG text
+ g, <g>, false, SVG group
+ defs, <defs>, false, SVG definitions
+ use, <use>, false, SVG use
+ symbol, <symbol>, false, SVG symbol
+ clipPath, <clipPath>, false, SVG clip path
+ mask, <mask>, false, SVG mask
+ pattern, <pattern>, false, SVG pattern
+ filter, <filter>, false, SVG filter
+ feGaussianBlur, <feGaussianBlur>, false, SVG blur
+ feOffset, <feOffset>, false, SVG offset
+ feBlend, <feBlend>, false, SVG blend
+ feColorMatrix, <feColorMatrix>, false, SVG color matrix

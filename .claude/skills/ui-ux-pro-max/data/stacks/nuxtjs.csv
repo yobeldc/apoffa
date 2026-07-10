@@ -1,0 +1,46 @@
+Component,HTML Equivalent,Nuxt Specific,Notes
+NuxtPage, <div>, true, Page rendering
+NuxtLayout, <div>, true, Layout wrapper
+NuxtLink, <a>, true, Client-side navigation
+NuxtLoadingIndicator, <div>, true, Loading bar
+NuxtErrorBoundary, <div>, true, Error boundary
+ClientOnly, <div>, true, Client-only rendering
+ServerOnly, <div>, true, Server-only rendering
+NuxtImg, <img>, true, Optimized image
+NuxtPicture, <picture>, true, Optimized picture
+Teleport, <teleport>, true, Teleport component
+Suspense, <Suspense>, true, Async boundary
+Lazy, <div>, true, Lazy loading
+NuxtWelcome, <div>, true, Welcome component
+NuxtIsland, <div>, true, Island architecture
+NuxtRouteAnnouncer, <div>, true, Route announcer
+useHead, <head>, true, Head management
+useSeoMeta, <meta>, true, SEO meta composable
+useRoute, window.location, true, Current route
+useRouter, history API, true, Router instance
+useState, ref, true, SSR-friendly state
+useAsyncData, fetch, true, Async data fetching
+useFetch, fetch, true, Data fetching
+useLazyAsyncData, fetch, true, Lazy async data
+useLazyFetch, fetch, true, Lazy fetch
+useCookie, document.cookie, true, Cookie management
+useError, -, true, Error handling
+useRequestEvent, -, true, Request event
+useRequestFetch, fetch, true, Request fetch
+useRequestHeaders, -, true, Request headers
+useRuntimeConfig, env, true, Runtime config
+useAppConfig, config, true, App configuration
+useNuxtApp, app, true, Nuxt app instance
+useNuxtData, data, true, Cached data
+useLoadingIndicator, -, true, Loading indicator
+useHydration, -, true, Hydration helper
+usePreviewMode, -, true, Preview mode
+useId, id, true, Unique ID generation
+useRouteAnnouncer, -, true, Route announcements
+useTransitionState, -, true, View transitions
+<slot>, <slot>, false, Vue slot
+<component>, <component>, false, Dynamic component
+<keep-alive>, <keep-alive>, false, Cache components
+<transition>, <transition>, false, Vue transitions
+<transition-group>, <transition-group>, false, List transitions
+

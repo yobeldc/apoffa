@@ -1,0 +1,55 @@
+Component,HTML Equivalent,Next.js Specific,Notes
+Image, <img>, true, Optimized image with next/image
+Link, <a>, true, Client-side navigation with next/link
+Head, <head>, true, HTML head management with next/head
+Script, <script>, true, Script optimization with next/script
+Dynamic, <div>, true, Dynamic imports with next/dynamic
+router, history API, true, useRouter hook for navigation
+params, URLSearchParams, true, useParams and useSearchParams
+data fetching, fetch, true, getServerSideProps / getStaticProps
+middleware, -, true, Next.js middleware
+API Routes, express, true, Built-in API routes
+App Router, -, true, New app directory routing
+Server Components, -, true, React Server Components
+Client Components, 'use client', true, Client-side components
+next/font, @font-face, true, Font optimization
+next/head, <head>, true, Head element
+next/script, <script>, true, Script optimization
+next/image, <img>, true, Image optimization
+next/link, <a>, true, Link optimization
+next/navigation, window.location, true, Navigation hooks
+loading.js, <Suspense>, true, Loading UI
+error.js, Error Boundary, true, Error handling
+layout.js, <Layout>, true, Shared layouts
+template.js, <Template>, true, Re-rendered layouts
+not-found.js, 404 page, true, 404 handling
+route.js, API route, true, Route handlers
+revalidatePath, -, true, Cache revalidation
+revalidateTag, -, true, Tag-based revalidation
+redirect, -, true, Redirect function
+permanentRedirect, -, true, Permanent redirect
+cookies, document.cookie, true, Cookie handling
+draftMode, -, true, Draft mode for CMS
+generateStaticParams, -, true, Static generation
+metadata, <meta>, true, Metadata API
+viewport, <meta viewport>, true, Viewport config
+openGraph, <meta og:*>, true, Open Graph metadata
+twitter, <meta twitter:*>, true, Twitter cards
+robots, <meta robots>, true, Robots metadata
+alternates, <link rel>, true, Alternate URLs
+icons, <link rel>, true, Icon metadata
+manifest, <link rel>, true, Web manifest
+themeColor, <meta theme-color>, true, Theme color
+appleWebApp, <meta apple-mobile-web-app>, true, Apple PWA config
+verification, <meta verification>, true, Site verification
+itunes, <meta itunes>, true, iTunes metadata
+appLinks, <meta al:*>, true, App Links
+archives, <link rel>, true, Archive links
+assets, <link rel>, true, Asset links
+bookmarks, <link rel>, true, Bookmark links
+category, <link rel>, true, Category links
+other, <link rel>, true, Other links
+author, <meta author>, true, Author metadata
+creator, <meta creator>, true, Creator metadata
+publisher, <meta publisher>, true, Publisher metadata
+generator, <meta generator>, true, Generator metadata

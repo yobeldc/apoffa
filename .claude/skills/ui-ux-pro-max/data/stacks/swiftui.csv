@@ -1,0 +1,78 @@
+Component,HTML Equivalent,SwiftUI Specific,Notes
+VStack, <div flex-column>, true, Vertical stack
+HStack, <div flex-row>, true, Horizontal stack
+ZStack, <div position>, true, Depth stack
+List, <ul>, true, List view
+Form, <form>, true, Form container
+Section, <fieldset>, true, Grouped content
+Group, <>, true, Grouping without layout
+NavigationView, <nav>, true, Navigation container
+NavigationLink, <a>, true, Navigation link
+TabView, <div tabs>, true, Tab container
+TabItem, <button tab>, true, Tab item
+Sheet, <dialog>, true, Modal sheet
+FullScreenCover, <dialog>, true, Full screen modal
+Alert, <dialog>, true, Alert dialog
+ActionSheet, <dialog>, true, Action sheet
+Popover, <div popover>, true, Popover
+ContextMenu, <menu>, true, Context menu
+Menu, <menu>, true, Dropdown menu
+Button, <button>, true, Button
+Link, <a>, true, Link button
+Toggle, <input toggle>, true, Switch
+Slider, <input range>, true, Slider
+Stepper, <input number>, true, Stepper
+Picker, <select>, true, Dropdown picker
+DatePicker, <input date>, true, Date picker
+TextField, <input>, true, Text input
+SecureField, <input password>, true, Password input
+TextArea, <textarea>, true, Multi-line text
+Text, <p>, true, Text view
+Label, <label>, true, Icon + text
+Image, <img>, true, Image view
+AsyncImage, <img lazy>, true, Async image
+Icon, <svg>, true, System icon
+ProgressView, <progress>, true, Progress indicator
+Gauge, <meter>, true, Gauge widget
+ColorPicker, <input color>, true, Color picker
+Spacer, <div spacer>, true, Flexible space
+Divider, <hr>, true, Divider line
+EmptyView, <>, true, Empty view
+AnyView, <>, true, Type-erased view
+ScrollView, <div scroll>, true, Scrollable content
+LazyVStack, <div>, true, Lazy vertical stack
+LazyHStack, <div>, true, Lazy horizontal stack
+LazyVGrid, <div grid>, true, Lazy vertical grid
+LazyHGrid, <div grid>, true, Lazy horizontal grid
+GridItem, <div>, true, Grid item
+ForEach, .map(), true, Loop view
+if, if, true, Conditional view
+switch, switch, true, Pattern matching
+onAppear, useEffect, true, Lifecycle
+onDisappear, useEffect cleanup, true, Lifecycle
+onChange, useEffect deps, true, Change detection
+task, async task, true, Async task
+refreshable, pull-refresh, true, Pull to refresh
+searchable, <input search>, true, Search field
+overlay, ::after, true, Overlay modifier
+background, background, true, Background modifier
+foregroundColor, color, true, Text color
+accentColor, accent-color, true, Accent color
+font, font, true, Typography
+padding, padding, true, Padding
+frame, width/height, true, Sizing
+position, position, true, Positioning
+offset, translate, true, Offset
+scaleEffect, scale, true, Scale
+rotationEffect, rotate, true, Rotation
+opacity, opacity, true, Opacity
+hidden, display: none, true, Visibility
+animation, animation, true, View animation
+transition, transition, true, View transition
+gesture, touch events, true, Gesture handler
+spatialTapGesture, tap, true, Tap gesture
+longPressGesture, longpress, true, Long press
+dragGesture, drag, true, Drag gesture
+magnificationGesture, pinch, true, Pinch gesture
+rotationGesture, rotate, true, Rotation gesture
+

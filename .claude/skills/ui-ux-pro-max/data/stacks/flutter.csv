@@ -1,0 +1,84 @@
+Component,HTML Equivalent,Flutter Specific,Notes
+AppBar, <header>, true, Material app bar
+Scaffold, <body>, true, Page scaffold
+Container, <div>, false, General container
+Row, <div flex-row>, true, Horizontal layout
+Column, <div flex-column>, true, Vertical layout
+Stack, <div position>, true, Overlapping layout
+Expanded, flex: 1, true, Expands to fill space
+Flexible, flex, true, Flexible layout
+SizedBox, <div fixed-size>, true, Fixed size box
+Padding, padding, true, Padding widget
+Margin, margin, false, Margin via Container
+Center, <center>, false, Center alignment
+Align, text-align, false, Alignment widget
+Text, <p>, false, Text display
+RichText, <span>, false, Styled text spans
+TextField, <input>, false, Text input
+TextFormField, <input form>, true, Form input with validation
+Button, <button>, false, Generic button
+ElevatedButton, <button class='raised'>, true, Material raised button
+TextButton, <button class='text'>, true, Material text button
+OutlinedButton, <button class='outlined'>, true, Material outlined button
+IconButton, <button>, true, Button with icon
+FloatingActionButton, <button fixed>, true, FAB
+Card, <div class='card'>, true, Material card
+ListView, <ul>, true, Scrollable list
+ListTile, <li>, true, List item with leading/trailing
+GridView, <div grid>, true, Scrollable grid
+Drawer, <aside>, true, Navigation drawer
+BottomNavigationBar, <nav>, true, Bottom tabs
+TabBar, <nav tabs>, true, Tab navigation
+TabBarView, <div tab-content>, true, Tab content
+Dialog, <dialog>, false, Modal dialog
+AlertDialog, <dialog>, true, Material alert
+SnackBar, <div toast>, true, Material snackbar
+BottomSheet, <div sheet>, true, Bottom sheet
+Chip, <span class='tag'>, true, Material chip
+CircleAvatar, <img round>, true, Circular avatar
+Icon, <svg>, false, Material icon
+Image, <img>, false, Image display
+NetworkImage, <img src='url'>, true, Network image
+AssetImage, <img src='local'>, true, Asset image
+FadeInImage, <img lazy>, true, Image with fade-in
+Hero, <div transition>, true, Hero animation widget
+AnimatedContainer, <div animate>, true, Animated transitions
+Opacity, opacity, false, Opacity wrapper
+Transform, transform, false, Transformations
+GestureDetector, onclick, true, Touch detection
+InkWell, <div ripple>, true, Material ripple
+Dividers, <hr>, false, Divider line
+CircularProgressIndicator, <progress>, true, Material spinner
+LinearProgressIndicator, <progress>, true, Linear progress
+RefreshIndicator, <div pull-refresh>, true, Pull to refresh
+Tooltip, <span title>, false, Hover tooltip
+SelectableText, <p selectable>, true, Selectable text
+Wrap, <div flex-wrap>, false, Wrap layout
+Flow, <div flow>, false, Flow layout
+Table, <table>, false, Table widget
+DataTable, <table>, true, Material data table
+PaginatedDataTable, <table paged>, true, Paginated table
+Stepper, <div steps>, true, Step indicator
+ExpansionTile, <details>, true, Expandable tile
+Checkbox, <input type='checkbox'>, false, Checkbox
+Radio, <input type='radio'>, false, Radio button
+Switch, <input type='checkbox' toggle>, true, Toggle switch
+Slider, <input type='range'>, false, Range slider
+DatePicker, <input type='date'>, true, Date picker
+TimePicker, <input type='time'>, true, Time picker
+DropdownButton, <select>, true, Dropdown
+PopupMenuButton, <select custom>, true, Popup menu
+Form, <form>, false, Form container
+FormField, <input>, false, Form field widget
+Autocomplete, <input autocomplete>, true, Autocomplete field
+BottomAppBar, <footer>, true, Bottom app bar
+SliverAppBar, <header scroll>, true, Collapsible header
+SliverList, <ul scroll>, true, Sliver list
+SliverGrid, <div grid scroll>, true, Sliver grid
+CustomScrollView, <div custom-scroll>, true, Custom scroll
+NestedScrollView, <div nested-scroll>, true, Nested scroll
+InteractiveViewer, <div zoom>, true, Pinch/zoom widget
+ReorderableListView, <ul sortable>, true, Reorderable list
+Scrollbar, <div scrollbar>, false, Scroll indicator
+SingleChildScrollView, <div scroll>, true, Single child scroll
+PageView, <div carousel>, true, Page swiping

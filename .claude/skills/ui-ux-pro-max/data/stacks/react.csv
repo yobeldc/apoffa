@@ -1,0 +1,39 @@
+Component,HTML Equivalent,React Specific,Notes
+Fragment, <>, false, React Fragment
+StrictMode, <>, true, Development mode checks
+Suspense, <Suspense>, true, Async loading
+lazy, import(), true, Code splitting
+memo, -, true, Component memoization
+useState, -, true, State hook
+useEffect, -, true, Side effect hook
+useContext, -, true, Context hook
+useReducer, -, true, Reducer hook
+useCallback, -, true, Callback memoization
+useMemo, -, true, Value memoization
+useRef, -, true, Ref hook
+useImperativeHandle, -, true, Imperative API
+useLayoutEffect, -, true, Synchronous effect
+useDebugValue, -, true, DevTools label
+useId, -, true, Unique ID hook
+useTransition, -, true, Transition hook
+useDeferredValue, -, true, Deferred value hook
+useSyncExternalStore, -, true, External store hook
+useInsertionEffect, -, true, CSS-in-JS effect
+forwardRef, -, true, Ref forwarding
+createPortal, ReactDOM.createPortal, true, Portal rendering
+renderToString, ReactDOMServer, true, SSR rendering
+renderToStaticMarkup, ReactDOMServer, true, Static markup
+hydrate, ReactDOM.hydrate, true, Client hydration
+createRoot, ReactDOM.createRoot, true, React 18 root
+hydrateRoot, ReactDOM.hydrateRoot, true, Hydration root
+startTransition, -, true, Transition API
+act, -, true, Testing utility
+cloneElement, -, true, Element cloning
+createElement, -, true, Element creation
+createContext, -, true, Context creation
+createFactory, -, true, Element factory (legacy)
+isValidElement, -, true, Element validation
+Children, -, true, Children utilities
+Component, class, true, Base class component
+PureComponent, class, true, Optimized class component
+

@@ -1,0 +1,64 @@
+Component,HTML Equivalent,Nuxt UI Specific,Notes
+UButton, <button>, true, Nuxt UI button
+UInput, <input>, true, Nuxt UI input
+UTextarea, <textarea>, true, Nuxt UI textarea
+USelect, <select>, true, Nuxt UI select
+USelectMenu, <select multiple>, true, Nuxt UI select menu
+UCheckbox, <input type="checkbox">, true, Nuxt UI checkbox
+URadio, <input type="radio">, true, Nuxt UI radio
+UToggle, <input type="checkbox">, true, Nuxt UI toggle
+URange, <input type="range">, true, Nuxt UI range
+UForm, <form>, true, Nuxt UI form
+UFormGroup, <div>, true, Nuxt UI form group
+UDropdown, <select>, true, Nuxt UI dropdown
+UTooltip, <span title>, true, Nuxt UI tooltip
+UModal, <dialog>, true, Nuxt UI modal
+USlideover, <div>, true, Nuxt UI slideover
+UPopover, <div>, true, Nuxt UI popover
+UContextMenu, <menu>, true, Nuxt UI context menu
+UNotification, <div>, true, Nuxt UI notification
+UNotifications, <div>, true, Nuxt UI notifications container
+UAlert, <div>, true, Nuxt UI alert
+UBadge, <span>, true, Nuxt UI badge
+UAvatar, <img>, true, Nuxt UI avatar
+UAvatarGroup, <div>, true, Nuxt UI avatar group
+UCard, <div>, true, Nuxt UI card
+UContainer, <div>, true, Nuxt UI container
+UCarousel, <div>, true, Nuxt UI carousel
+UAccordion, <details>, true, Nuxt UI accordion
+UTabs, <div>, true, Nuxt UI tabs
+UTable, <table>, true, Nuxt UI table
+UPagination, <nav>, true, Nuxt UI pagination
+UProgress, <progress>, true, Nuxt UI progress
+UMeter, <meter>, true, Nuxt UI meter
+UMeterGroup, <div>, true, Nuxt UI meter group
+USkeleton, <div>, true, Nuxt UI skeleton
+ULink, <a>, true, Nuxt UI link
+UNuxtLink, <a>, true, Nuxt UI Nuxt link
+UCommandPalette, <div>, true, Nuxt UI command palette
+UColorModeButton, <button>, true, Nuxt UI color mode button
+UColorModeImage, <img>, true, Nuxt UI color mode image
+UColorModeSelect, <select>, true, Nuxt UI color mode select
+UIcon, <svg>, true, Nuxt UI icon
+UKbd, <kbd>, true, Nuxt UI keyboard
+UChip, <span>, true, Nuxt UI chip
+UDivider, <hr>, true, Nuxt UI divider
+UEmptyState, <div>, true, Nuxt UI empty state
+UContent, <div>, true, Nuxt UI content
+UMarkdown, <div>, true, Nuxt UI markdown
+UTerminal, <pre>, true, Nuxt UI terminal
+UBreadcrumb, <nav>, true, Nuxt UI breadcrumb
+UHeader, <header>, true, Nuxt UI header
+UFooter, <footer>, true, Nuxt UI footer
+USeparator, <hr>, true, Nuxt UI separator
+UVerticalNavigation, <nav>, true, Nuxt UI vertical navigation
+UHorizontalNavigation, <nav>, true, Nuxt UI horizontal navigation
+UPage, <div>, true, Nuxt UI page
+UPageBody, <main>, true, Nuxt UI page body
+UPageHeader, <header>, true, Nuxt UI page header
+UPageHero, <section>, true, Nuxt UI page hero
+UPageCard, <div>, true, Nuxt UI page card
+UPageGrid, <div>, true, Nuxt UI page grid
+UPageColumns, <div>, true, Nuxt UI page columns
+UPageError, <div>, true, Nuxt UI page error
+

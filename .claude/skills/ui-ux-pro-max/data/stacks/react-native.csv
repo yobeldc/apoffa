@@ -1,0 +1,50 @@
+Component,HTML Equivalent,React Native Specific,Notes
+View, <div>, true, Basic container
+Text, <p>, true, Text element
+Image, <img>, true, Image component
+ScrollView, <div scroll>, true, Scrollable view
+FlatList, <ul virtual>, true, Virtualized list
+SectionList, <ul grouped>, true, Sectioned list
+TextInput, <input>, true, Text input
+Button, <button>, true, Native button
+Pressable, <div onclick>, true, Touch handler
+TouchableOpacity, <div>, true, Opacity feedback
+TouchableHighlight, <div>, true, Highlight feedback
+TouchableWithoutFeedback, <div>, true, No visual feedback
+SafeAreaView, <div>, true, Safe area handling
+KeyboardAvoidingView, <div>, true, Keyboard handling
+Modal, <dialog>, true, Modal presentation
+StatusBar, <meta>, true, Status bar config
+ActivityIndicator, <progress>, true, Loading spinner
+Switch, <input toggle>, true, Native switch
+Alert, alert(), true, Native alert
+ToastAndroid, Toast, true, Android toast
+ActionSheetIOS, <dialog>, true, iOS action sheet
+DrawerLayoutAndroid, <aside>, true, Android drawer
+VirtualizedList, <ul>, true, Base virtual list
+RefreshControl, <div>, true, Pull to refresh
+Dimensions, window, true, Screen dimensions
+PixelRatio, devicePixelRatio, true, Pixel density
+Platform, navigator.platform, true, OS detection
+StyleSheet, CSS, true, Style compilation
+Animated, CSS animations, true, Animation API
+Easing, easing functions, true, Animation easing
+InteractionManager, requestIdleCallback, true, Interaction handling
+LayoutAnimation, CSS transitions, true, Layout animations
+PanResponder, touch events, true, Gesture handling
+Linking, <a>, true, Deep linking
+AppState, document.visibilityState, true, App state
+BackHandler, back button, true, Android back button
+Clipboard, clipboard, true, Copy/paste
+DeviceEventEmitter, EventTarget, true, Native events
+NativeModules, -, true, Native modules
+NativeEventEmitter, EventTarget, true, Native events
+PermissionsAndroid, Permissions API, true, Android permissions
+Settings, localStorage, true, App settings
+Share, Web Share API, true, Sharing
+Systrace, console.time, true, Performance tracing
+TimePickerAndroid, <input time>, true, Android time picker
+DatePickerAndroid, <input date>, true, Android date picker
+UIManager, -, true, UI management
+Vibration, vibration, true, Haptic feedback
+

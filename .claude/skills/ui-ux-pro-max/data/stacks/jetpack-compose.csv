@@ -1,0 +1,76 @@
+Component,HTML Equivalent,Compose Specific,Notes
+Box, <div>, true, Basic container
+Column, <div flex-column>, true, Vertical arrangement
+Row, <div flex-row>, true, Horizontal arrangement
+Text, <p>, true, Text composable
+Button, <button>, true, Material button
+OutlinedButton, <button outline>, true, Outlined button
+TextButton, <button text>, true, Text button
+IconButton, <button icon>, true, Icon button
+FloatingActionButton, <button fab>, true, FAB
+Card, <div card>, true, Material card
+Surface, <div surface>, true, Material surface
+Scaffold, <body>, true, App scaffold
+TopAppBar, <header>, true, App bar
+BottomAppBar, <footer>, true, Bottom bar
+BottomNavigation, <nav>, true, Bottom tabs
+NavigationRail, <aside>, true, Side navigation
+Drawer, <aside>, true, Navigation drawer
+ModalDrawer, <aside modal>, true, Modal drawer
+BottomSheet, <div sheet>, true, Bottom sheet
+ModalBottomSheet, <div modal-sheet>, true, Modal sheet
+Dialog, <dialog>, true, Material dialog
+AlertDialog, <dialog>, true, Alert dialog
+Snackbar, <div toast>, true, Material snackbar
+TextField, <input>, true, Text input
+OutlinedTextField, <input outline>, true, Outlined input
+Checkbox, <input checkbox>, true, Checkbox
+TriStateCheckbox, <input checkbox>, true, Tri-state
+RadioButton, <input radio>, true, Radio button
+Switch, <input toggle>, true, Toggle switch
+Slider, <input range>, true, Range slider
+RangeSlider, <input range>, true, Dual range
+DropdownMenu, <select>, true, Dropdown
+ExposedDropdownMenu, <select>, true, Exposed dropdown
+CircularProgressIndicator, <progress>, true, Spinner
+LinearProgressIndicator, <progress>, true, Progress bar
+Divider, <hr>, true, Divider
+Badge, <span badge>, true, Badge
+ListItem, <li>, true, List item
+Icon, <svg>, true, Material icon
+Image, <img>, true, Image composable
+AsyncImage, <img lazy>, true, Async image
+Spacer, <div spacer>, true, Space filler
+LazyColumn, <ul virtual>, true, Virtual list
+LazyRow, <ul horizontal>, true, Horizontal virtual
+LazyVerticalGrid, <div grid>, true, Virtual grid
+Pager, <div pager>, true, Swipeable pager
+TabRow, <nav tabs>, true, Tab bar
+Tab, <button tab>, true, Tab
+ScrollableTabRow, <nav tabs-scroll>, true, Scrollable tabs
+LeadingIconTab, <button tab-icon>, true, Icon tab
+BackdropScaffold, <div backdrop>, true, Backdrop
+SwipeToDismiss, <div swipe>, true, Swipe dismiss
+PullRefreshIndicator, <div refresh>, true, Pull refresh
+Tooltip, <span title>, true, Tooltip
+ContextualFlowRow, <div flow>, true, Flow layout
+FlowRow, <div flow>, true, Flow
+FlowColumn, <div flow-column>, true, Flow column
+HorizontalPager, <div pager-h>, true, Horizontal pager
+VerticalPager, <div pager-v>, true, Vertical pager
+NavigationBar, <nav>, true, Navigation bar
+NavigationBarItem, <a nav>, true, Nav item
+DatePicker, <input date>, true, Date picker
+TimePicker, <input time>, true, Time picker
+DateRangePicker, <input date-range>, true, Date range
+SearchBar, <input search>, true, Search bar
+DockedSearchBar, <input search-docked>, true, Docked search
+TooltipBox, <div tooltip>, true, Tooltip container
+PlainTooltip, <span tooltip>, true, Simple tooltip
+RichTooltip, <div tooltip-rich>, true, Rich tooltip
+HorizontalDivider, <hr>, true, Horizontal divider
+VerticalDivider, <div vertical-line>, true, Vertical divider
+ModalNavigationDrawer, <aside modal>, true, Modal drawer
+PermanentNavigationDrawer, <aside fixed>, true, Permanent drawer
+DismissibleNavigationDrawer, <aside dismissible>, true, Dismissible drawer
+

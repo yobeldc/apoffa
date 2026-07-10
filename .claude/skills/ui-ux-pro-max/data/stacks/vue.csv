@@ -1,0 +1,71 @@
+Component,HTML Equivalent,Vue Specific,Notes
+template, <template>, false, Vue template
+script, <script>, false, Vue script
+style, <style>, false, Vue styles
+Teleport, <teleport>, true, Vue teleport
+Suspense, <Suspense>, true, Async boundary
+KeepAlive, <keep-alive>, true, Cache component
+Transition, <transition>, true, Single transition
+TransitionGroup, <transition-group>, true, List transitions
+Slot, <slot>, true, Content distribution
+Component, <component>, true, Dynamic component
+v-if, conditional, true, Conditional rendering
+v-else, conditional, true, Else branch
+v-else-if, conditional, true, Else-if branch
+v-for, .map(), true, List rendering
+v-show, display, true, CSS visibility
+v-bind:, attribute, true, Attribute binding
+v-model, value + input, true, Two-way binding
+v-on:, event, true, Event listener
+v-text, textContent, true, Text binding
+v-html, innerHTML, true, HTML binding
+v-once, render once, true, One-time render
+v-pre, skip compile, true, Skip compilation
+v-cloak, [v-cloak], true, Hide uncompiled
+v-memo, memo, true, Memoize sub-tree
+ref, useRef, true, Template ref
+computed, useMemo, true, Computed property
+watch, useEffect, true, Watch effect
+watchEffect, useEffect, true, Auto-track effect
+provide, Provider, true, Dependency provide
+inject, useContext, true, Dependency inject
+onMounted, useEffect, true, Mount hook
+onUnmounted, useEffect cleanup, true, Unmount hook
+onUpdated, useLayoutEffect, true, Update hook
+onBeforeMount, -, true, Pre-mount hook
+onBeforeUpdate, -, true, Pre-update hook
+onBeforeUnmount, -, true, Pre-unmount hook
+onErrorCaptured, Error Boundary, true, Error handling
+onActivated, -, true, Keep-alive activated
+onDeactivated, -, true, Keep-alive deactivated
+onRenderTracked, -, true, Render tracked
+onRenderTriggered, -, true, Render triggered
+nextTick, Promise.resolve(), true, Next DOM tick
+defineProps, props, true, Props definition
+defineEmits, emit, true, Emits definition
+defineExpose, ref, true, Expose API
+defineOptions, options, true, Component options
+defineModel, v-model, true, Model definition
+defineSlots, slots, true, Slots definition
+useAttrs, attrs, true, Attributes access
+useSlots, slots, true, Slots access
+useModel, v-model, true, Model macro
+withDefaults, defaultProps, true, Default props
+shallowRef, useState, true, Shallow ref
+triggerRef, forceUpdate, true, Force trigger
+customRef, -, true, Custom ref
+reactive, useState, true, Reactive object
+readonly, immutable, true, Readonly proxy
+shallowReactive, reactive, true, Shallow reactive
+shallowReadonly, readonly, true, Shallow readonly
+toRef, -, true, Property ref
+toRefs, -, true, Object refs
+toValue, -, true, Extract value
+toRaw, -, true, Raw object
+markRaw, -, true, Skip reactive
+isRef, -, true, Check ref
+isReactive, -, true, Check reactive
+isReadonly, -, true, Check readonly
+isProxy, -, true, Check proxy
+unref, -, true, Unwrap ref
+

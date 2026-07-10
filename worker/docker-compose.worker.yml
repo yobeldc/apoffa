@@ -1,0 +1,79 @@
+# ============================================================================
+# Apoffa Worker — Docker Compose
+# ============================================================================
+# Standalone worker service for background job processing.
+# Uses the same PostgreSQL database as the main app.
+#
+# Usage:
+#   docker-compose -f worker/docker-compose.worker.yml up -d
+#   docker-compose -f worker/docker-compose.worker.yml logs -f
+#   docker-compose -f worker/docker-compose.worker.yml down
+# ============================================================================
+
+version: "3.8"
+
+services:
+  worker:
+    build:
+      context: ..
+      dockerfile: worker/Dockerfile
+    container_name: apoffa-worker
+    restart: unless-stopped
+    environment:
+      # Database
+      DATABASE_URL: ${DATABASE_URL}
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
+
+      # Worker tuning
+      WORKER_CONCURRENCY: ${WORKER_CONCURRENCY:-4}
+      WORKER_POLL_INTERVAL_MS: ${WORKER_POLL_INTERVAL_MS:-5000}
+      WORKER_MAX_JOBS_PER_WORKER: ${WORKER_MAX_JOBS_PER_WORKER:-100}
+
+      # RAG
+      RAG_ENABLED: ${RAG_ENABLED:-true}
+      RAG_EMBEDDING_PROVIDER: ${RAG_EMBEDDING_PROVIDER:-ollama}
+      RAG_EMBEDDING_MODEL: ${RAG_EMBEDDING_MODEL:-bge-m3}
+      RAG_EMBEDDING_DIMENSION: ${RAG_EMBEDDING_DIMENSION:-1024}
+      RAG_EMBEDDING_BASE_URL: ${RAG_EMBEDDING_BASE_URL:-http://ollama:11434}
+
+      # LLM
+      RAG_LLM_PROVIDER: ${RAG_LLM_PROVIDER:-ollama}
+      RAG_LLM_MODEL: ${RAG_LLM_MODEL:-qwen3:8b}
+      RAG_LLM_BASE_URL: ${RAG_LLM_BASE_URL:-http://ollama:11434}
+
+      # Queue
+      QUEUE_PROVIDER: ${QUEUE_PROVIDER:-pgmq}
+
+      # Logging
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+    volumes:
+      - worker-data:/app/data
+    networks:
+      - apoffa-network
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: 2G
+        reservations:
+          cpus: "0.5"
+          memory: 512M
+
+  # Optional: Redis for caching
+  redis:
+    image: redis:7-alpine
+    container_name: apoffa-redis
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+    networks:
+      - apoffa-network
+
+volumes:
+  worker-data:
+  redis-data:
+
+networks:
+  apoffa-network:
+    external: true

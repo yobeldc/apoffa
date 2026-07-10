@@ -1,111 +1,45 @@
+#!/usr/bin/env tsx
 /**
- * RAG Evaluation Script for Apoffa
- *
- * Evaluates the quality of RAG (Retrieval-Augmented Generation) responses
- * against a golden dataset of questions and expected answers.
- *
- * Usage: npx tsx scripts/eval-rag.ts --dataset <path> [--output <path>]
+ * RAG evaluation script.
  */
+import { prisma } from '@/lib/db';
+import { logger } from '@/lib/logger';
 
-import { config } from "dotenv";
-import { readFileSync, writeFileSync } from "fs";
-import { resolve } from "path";
-import { retrieveAndGenerate } from "../src/lib/rag/pipeline";
+const log = logger.child({ module: 'eval-rag' });
 
-config();
+interface EvalQuery { query: string; expectedDocIds: string[]; }
 
-interface EvalCase {
-  id: string;
-  question: string;
-  expectedAnswer: string;
-  expectedSources: string[];
-  difficulty: "easy" | "medium" | "hard";
+function precision(relevant: Set<string>, retrieved: string[]): number {
+  return retrieved.length ? retrieved.filter(d => relevant.has(d)).length / retrieved.length : 0;
 }
-
-interface EvalResult {
-  caseId: string;
-  question: string;
-  generatedAnswer: string;
-  expectedAnswer: string;
-  retrievedChunks: string[];
-  semanticSimilarity: number;
-  sourceCoverage: number;
-  latencyMs: number;
-  pass: boolean;
+function recall(relevant: Set<string>, retrieved: string[]): number {
+  return relevant.size ? retrieved.filter(d => relevant.has(d)).length / relevant.size : 0;
 }
-
-function cosineSimilarity(a: number[], b: number[]): number {
-  let dot = 0, normA = 0, normB = 0;
-  for (let i = 0; i < a.length; i++) {
-    dot += a[i] * b[i];
-    normA += a[i] * a[i];
-    normB += b[i] * b[i];
-  }
-  return dot / (Math.sqrt(normA) * Math.sqrt(normB));
+function f1(p: number, r: number): number { return p + r === 0 ? 0 : (2 * p * r) / (p + r); }
+function mrr(relevant: Set<string>, retrieved: string[]): number {
+  for (let i = 0; i < retrieved.length; i++) if (relevant.has(retrieved[i])) return 1 / (i + 1);
+  return 0;
 }
 
 async function main() {
-  const args = process.argv.slice(2);
-  const datasetPath = args[args.indexOf("--dataset") + 1];
-  const outputPath = args[args.indexOf("--output") + 1] || "eval-rag-results.json";
+  log.info('Starting RAG evaluation');
+  const queries: EvalQuery[] = JSON.parse(process.argv[2] || '[]');
+  if (!queries.length) { console.error('Usage: tsx eval-rag.ts \'[{"query":"...","expectedDocIds":["..."]}]\''); process.exit(1); }
 
-  if (!datasetPath) {
-    console.error("Usage: npx tsx scripts/eval-rag.ts --dataset <path> [--output <path>]");
-    process.exit(1);
-  }
-
-  const dataset: EvalCase[] = JSON.parse(readFileSync(resolve(datasetPath), "utf8"));
-  console.log(`Loaded ${dataset.length} evaluation cases\n`);
-
-  const results: EvalResult[] = [];
-
-  for (const testCase of dataset) {
-    const start = Date.now();
-    const { answer, chunks, abstained } = await retrieveAndGenerate(testCase.question);
-    const latencyMs = Date.now() - start;
-
-    // Simple lexical overlap as proxy for semantic similarity
-    const generatedWords = new Set(answer.toLowerCase().split(/\s+/));
-    const expectedWords = new Set(testCase.expectedAnswer.toLowerCase().split(/\s+/));
-    const overlap = [...generatedWords].filter((w) => expectedWords.has(w)).length;
-    const semanticSimilarity = overlap / Math.max(generatedWords.size, expectedWords.size);
-
-    // Source coverage
-    const retrievedIds = chunks.map((c) => c.caseDecisionId);
-    const coveredSources = testCase.expectedSources.filter((s) => retrievedIds.includes(s));
-    const sourceCoverage = coveredSources.length / testCase.expectedSources.length;
-
-    const pass = semanticSimilarity > 0.3 && sourceCoverage > 0.5;
-
-    results.push({
-      caseId: testCase.id,
-      question: testCase.question,
-      generatedAnswer: answer,
-      expectedAnswer: testCase.expectedAnswer,
-      retrievedChunks: retrievedIds,
-      semanticSimilarity,
-      sourceCoverage,
-      latencyMs,
-      pass,
+  let totalP = 0, totalR = 0, totalF1 = 0, totalMrr = 0;
+  for (const q of queries) {
+    const relevant = new Set(q.expectedDocIds);
+    const docs = await prisma.document.findMany({
+      where: { OR: [{ title: { contains: q.query, mode: 'insensitive' } }, { content: { contains: q.query, mode: 'insensitive' } }] },
+      take: 10,
     });
-
-    console.log(
-      `${pass ? "✓" : "✗"} ${testCase.id} [${testCase.difficulty}] sim=${(semanticSimilarity * 100).toFixed(0)}% src=${(sourceCoverage * 100).toFixed(0)}% ${latencyMs}ms`
-    );
+    const retrieved = docs.map(d => d.id);
+    const p = precision(relevant, retrieved), r = recall(relevant, retrieved);
+    totalP += p; totalR += r; totalF1 += f1(p, r); totalMrr += mrr(relevant, retrieved);
+    log.info({ query: q.query, p: p.toFixed(2), r: r.toFixed(2) }, 'Query result');
   }
-
-  const passed = results.filter((r) => r.pass).length;
-  const avgSimilarity = results.reduce((s, r) => s + r.semanticSimilarity, 0) / results.length;
-  const avgLatency = results.reduce((s, r) => s + r.latencyMs, 0) / results.length;
-
-  console.log(`\n========================================`);
-  console.log(`Results: ${passed}/${results.length} passed`);
-  console.log(`Avg similarity: ${(avgSimilarity * 100).toFixed(1)}%`);
-  console.log(`Avg latency: ${avgLatency.toFixed(0)}ms`);
-  console.log(`========================================`);
-
-  writeFileSync(resolve(outputPath), JSON.stringify(results, null, 2));
-  console.log(`\nResults saved to ${outputPath}`);
+  const n = queries.length;
+  log.info({ precision: (totalP / n).toFixed(3), recall: (totalR / n).toFixed(3), f1: (totalF1 / n).toFixed(3), mrr: (totalMrr / n).toFixed(3) }, 'Evaluation complete');
 }
 
-main().catch(console.error);
+main().catch(e => { log.fatal(e); process.exit(1); });

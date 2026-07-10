@@ -1,72 +1,60 @@
 /**
- * LLM prompt builders for Apoffa Graph extraction.
- *
- * Centralizes all prompts used in the graph extraction pipeline.
+ * LLM prompt templates for APOffa Graph operations.
  */
 
-export function buildExtractionPrompt(caseText: string, metadata: {
-  nomorPutusan?: string | null;
-  pengadilan?: string | null;
-  klasifikasi?: string | null;
-  tahun?: number | null;
-}): string {
-  return `You are a legal document analysis assistant specializing in Indonesian court decisions (putusan). Extract structured information from the following court decision text.
+export function buildEntityExtractionPrompt(text: string): string {
+  return `You are a forensic entity extraction system. Analyze the text and extract all relevant entities.
 
-METADATA:
-- Nomor Putusan: ${metadata.nomorPutusan ?? "N/A"}
-- Pengadilan: ${metadata.pengadilan ?? "N/A"}
-- Klasifikasi: ${metadata.klasifikasi ?? "N/A"}
-- Tahun: ${metadata.tahun ?? "N/A"}
+Instructions:
+1. Identify people, organizations, locations, emails, phones, IPs, URLs, devices.
+2. For each: name, type, confidence (0-1), supporting excerpt.
+3. Output JSON array only.
 
-EXTRACTION TASKS:
-1. Identify all JUDGES (hakim) mentioned with their roles
-2. Identify all LEGAL ISSUES (masalah hukum) discussed
-3. Identify all STATUTES (undang-undang) and ARTICLES (pasal) cited
-4. Identify all SENTENCES (amar putusan) with their outcomes
-5. Extract EVIDENCE SPANS — key quotes supporting each extraction
-6. Assess CONFIDENCE for each extracted field (0.0-1.0)
+Types: PERSON|EMAIL|PHONE|URL|IP_ADDRESS|MAC_ADDRESS|ORGANIZATION|LOCATION|DEVICE|FILE
 
-COURT DECISION TEXT:
+Format:
+[{"name":"...","type":"...","confidence":0.95,"excerpt":"..."}]
+
+Text:
 ---
-${caseText.slice(0, 8000)}
----
-
-Output as valid JSON matching the ApoffaGraphDecisionExtraction schema.`;
+${text.slice(0, 8000)}
+---`;
 }
 
-export function buildMemoPrompt(extractionJson: string, focusIssues?: string[]): string {
-  return `Generate a structured research memo from the following case extraction data.
+export function buildRelationshipPrompt(entities: Array<{ name: string; type: string }>, text: string): string {
+  return `Given these entities and source text, identify relationships.
 
-${focusIssues ? `FOCUS ISSUES: ${focusIssues.join(", ")}` : ""}
+Entities:
+${entities.map(e => `- ${e.name} (${e.type})`).join('\n')}
 
-EXTRACTION DATA:
-${extractionJson}
+Types: COMMUNICATED|OWN|LOCATED_AT|ACCESSED|RELATED
 
-Generate a concise research memo with:
-1. Executive summary
-2. Key legal issues and analysis
-3. Relevant statutes and articles
-4. Case outcome and reasoning
-5. Confidence assessment
+Format:
+[{"source":"...","target":"...","type":"...","confidence":0.85,"excerpt":"..."}]
 
-Format as valid JSON.`;
+Source:
+---
+${text.slice(0, 8000)}
+---`;
 }
 
-export function buildSimilarityPrompt(caseA: string, caseB: string): string {
-  return `Compare the following two Indonesian court decisions and identify similarities and differences.
+export function buildSummaryPrompt(entities: Array<{ name: string; type: string }>, relationships: Array<{ source: string; target: string; type: string }>): string {
+  return `Analyze this entity graph and summarize.
 
-CASE A:
-${caseA.slice(0, 4000)}
+Entities:
+${entities.map(e => `- ${e.name} (${e.type})`).join('\n')}
 
-CASE B:
-${caseB.slice(0, 4000)}
+Relationships:
+${relationships.map(r => `- ${r.source} --${r.type}--> ${r.target}`).join('\n')}
 
-Analyze:
-1. Similar legal issues
-2. Common statutes cited
-3. Comparable outcomes
-4. Shared judges or courts
-5. Overall similarity score (0.0-1.0)
+Provide: overview, central entities, anomalies, next steps.`;
+}
 
-Output as valid JSON.`;
+export function buildEntityResolutionPrompt(candidates: Array<{ id: string; name: string; type: string }>): string {
+  return `Identify duplicate entities among these candidates.
+
+${candidates.map(c => `- ID:${c.id} Name:"${c.name}" Type:${c.type}`).join('\n')}
+
+Format:
+[{"canonicalName":"...","entityIds":["..."],"reason":"..."}]`;
 }

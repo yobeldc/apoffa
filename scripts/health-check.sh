@@ -1,71 +1,33 @@
 #!/bin/bash
-# =============================================================================
-# Health Check Script for Apoffa
-# =============================================================================
-# Usage: ./scripts/health-check.sh [ENVIRONMENT]
-#   ENVIRONMENT: local | staging | production (default: local)
-# =============================================================================
+# Health check script for APOffa services
 
-set -euo pipefail
+set -e
 
-ENV="${1:-local}"
-BASE_URL=""
+API_URL="${API_URL:-http://localhost:3000}"
+TIMEOUT=10
 
-case "$ENV" in
-  local)
-    BASE_URL="http://localhost:3000"
-    ;;
-  staging)
-    BASE_URL="${STAGING_URL:-https://staging.apoffa.app}"
-    ;;
-  production)
-    BASE_URL="${PRODUCTION_URL:-https://apoffa.app}"
-    ;;
-  *)
-    echo "Unknown environment: $ENV"
-    echo "Usage: ./scripts/health-check.sh [local|staging|production]"
-    exit 1
-    ;;
-esac
-
-echo "========================================"
-echo "Apoffa Health Check — $ENV"
-echo "========================================"
+echo "=== APOffa Health Check ==="
+echo "API URL: $API_URL"
 echo ""
 
-# Check API health
-echo "→ Checking API health..."
-if curl -sf "${BASE_URL}/api/health" > /dev/null 2>&1; then
-  echo "  ✓ API is healthy"
+# Check API
+echo -n "API Health... "
+if curl -sf --max-time "$TIMEOUT" "$API_URL/api/health" > /dev/null 2>&1; then
+  echo "OK"
 else
-  echo "  ✗ API health check failed"
+  echo "FAIL"
   exit 1
 fi
 
-# Check search endpoint
-echo "→ Checking search endpoint..."
-if curl -sf "${BASE_URL}/api/search?q=test&limit=1" > /dev/null 2>&1; then
-  echo "  ✓ Search endpoint responding"
+# Check database (via API)
+echo -n "Database... "
+DB_STATUS=$(curl -sf --max-time "$TIMEOUT" "$API_URL/api/health/db" 2>/dev/null | grep -o '"status":"[^"]*"' | cut -d'"' -f4 || echo "unknown")
+if [ "$DB_STATUS" = "healthy" ]; then
+  echo "OK"
 else
-  echo "  ✗ Search endpoint failed"
+  echo "FAIL ($DB_STATUS)"
+  exit 1
 fi
-
-# Check database connectivity via API
-echo "→ Checking database connectivity..."
-DB_HEALTH=$(curl -sf "${BASE_URL}/api/health/db" 2>/dev/null || echo "{}")
-if echo "$DB_HEALTH" | grep -q '"status":"ok"' 2>/dev/null; then
-  echo "  ✓ Database connected"
-else
-  echo "  ✗ Database check failed"
-fi
-
-# Check recent ingestion jobs
-echo "→ Checking recent ingestion jobs..."
-JOBS=$(curl -sf "${BASE_URL}/api/ingestion/jobs?limit=5" 2>/dev/null || echo "[]")
-JOB_COUNT=$(echo "$JOBS" | grep -c '"id"' 2>/dev/null || echo "0")
-echo "  → Found $JOB_COUNT recent job(s)"
 
 echo ""
-echo "========================================"
-echo "Health check complete ✓"
-echo "========================================"
+echo "All checks passed!"

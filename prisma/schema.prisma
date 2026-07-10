@@ -1,0 +1,158 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Case {
+  id        String   @id @default(cuid())
+  title     String
+  date      DateTime?
+  court     String?
+  judges    String?
+  parties   String?
+  summary   String?
+  content   String?
+  sourceUrl String?
+  sourceName String?
+  pdfUrl    String?
+  pdfText   String?
+  
+  // Normalized fields
+  year      Int?
+  caseType  String?
+  
+  // Relations
+  breakdown CaseBreakdown?
+  paragraphs Paragraph[]
+  citations Citation[]
+  
+  // Metadata
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // RAG
+  indexedAt DateTime?
+  vectorIds String? // JSON array of vector IDs
+  
+  // Search
+  searchText String? // Pre-computed search text
+  
+  // Data quality
+  dataQuality String? @default("pending") // pending, verified, needs_review
+  
+  @@index([year])
+  @@index([caseType])
+  @@index([dataQuality])
+  @@index([sourceName])
+}
+
+model Paragraph {
+  id      String @id @default(cuid())
+  caseId  String
+  case    Case   @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  number  Int
+  text    String
+  
+  // RAG
+  vectorId String?
+  
+  // Optional: paragraph-level analysis
+  classification String? // e.g., "facts", "holding", "dissent"
+  
+  @@index([caseId])
+}
+
+model CaseBreakdown {
+  id          String @id @default(cuid())
+  caseId      String @unique
+  case        Case   @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  
+  // Structured breakdown
+  facts       String? // JSON
+  issues      String? // JSON
+  holdings    String? // JSON
+  reasoning   String? // JSON
+  dissent     String? // JSON
+  significance String? // JSON
+  
+  // Full text
+  fullText    String?
+  
+  // Metadata
+  generatedAt DateTime @default(now())
+  model       String? // Which LLM generated this
+}
+
+model Citation {
+  id          String @id @default(cuid())
+  caseId      String
+  case        Case   @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  
+  citedCase   String
+  citedCaseId String?
+  
+  // Context
+  context     String?
+  paragraph   Int?
+  
+  @@index([caseId])
+  @@index([citedCaseId])
+}
+
+model IngestionJob {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  status      String   @default("pending") // pending, running, completed, failed, stopped
+  source      String // e.g., "pdf", "url", "text"
+  sourceUrl   String?
+  
+  // Progress
+  totalItems  Int      @default(0)
+  processedItems Int   @default(0)
+  failedItems Int      @default(0)
+  
+  // Results
+  cases       String? // JSON array of created case IDs
+  logs        String? // JSON array of log entries
+  
+  // Metadata
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  startedAt   DateTime?
+  completedAt DateTime?
+  
+  @@index([status])
+}
+
+model SavedCase {
+  id        String   @id @default(cuid())
+  caseId    String   @unique
+  notes     String?
+  tags      String?  // JSON array
+  createdAt DateTime @default(now())
+}
+
+model SearchQuery {
+  id        String   @id @default(cuid())
+  query     String
+  filters   String?  // JSON
+  results   Int      @default(0)
+  durationMs Int?
+  createdAt DateTime @default(now())
+}
+
+model Note {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  tags      String?  // JSON array
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

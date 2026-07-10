@@ -1,0 +1,72 @@
+# Apoffa — Supabase local configuration
+# Usage:
+#   supabase start          # Start all local services
+#   supabase db reset       # Reset DB and apply migrations + seed
+#   supabase db reset --linked  # Reset linked project (use with caution)
+#   supabase stop           # Stop all services
+
+project_id = "apoffa"
+
+[api]
+# RESTful API port (PostgREST)
+port = 54321
+schemas = ["public", "storage", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+# PostgreSQL port
+port = 54322
+# PostgreSQL major version — must match your production target
+major_version = 15
+shadow_port = 54320
+
+[studio]
+# Supabase Studio UI port
+port = 54323
+
+[inbucket]
+# Email testing server port
+port = 54324
+smtp_port = 54325
+pop3_port = 54326
+
+[storage]
+# S3-compatible storage API port
+port = 54325
+
+[auth]
+# GoTrue auth service port
+port = 54326
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["https://localhost:3000"]
+
+[realtime]
+# Realtime WebSocket port
+port = 54327
+
+[analytics]
+# Logflare / analytics port
+port = 54328
+
+[functions]
+# Edge Functions port
+port = 54329
+
+[db.pooler]
+# Connection pooler (PgBouncer) settings
+enabled = false
+port = 54330
+
+# ============================================================================
+# Extensions (pgmq for queue-based document ingestion)
+# ============================================================================
+
+[db.seed]
+# Enable pgmq extension for queue-based document ingestion
+# The extension is created via migration: 00000000000022_pgmq_queues.sql
+# This section ensures the extension is available in local dev
+
+[db.extensions]
+# pgmq — lightweight message queue on PostgreSQL
+pgmq = { enabled = true }

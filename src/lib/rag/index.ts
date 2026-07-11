@@ -1,134 +1,68 @@
-// src/lib/rag/index.ts
-// RAG (Retrieval Augmented Generation) index management
+/"use server"
 
-import { chunkByParagraphs } from './chunk';
-import { generateEmbedding } from './embeddings';
-import { upsertVectors, deleteVectors } from './vector-store';
-import { prisma } from '../db';
-import { serialize } from '../serialize';
+/**
+ * RAG (Retrieval-Augmented Generation) Pipeline
+ * Handles: Document retrieval + LLM generation for legal Q&A.
+ */
 
-export interface IndexResult {
-  caseId: string;
-  chunksIndexed: number;
-  vectorIds: string[];
-  error?: string;
+import { retrieveSimilar, hybridRetrieve } from "./retrieve-pgvector"
+
+export * from "./retrieve-pgvector"
+
+export interface RAGOptions {
+  query: string
+  queryEmbedding: number[]
+  topK?: number
+  threshold?: number
+  source?: string
+  useHybrid?: boolean
+  systemPrompt?: string
 }
 
-export async function indexCase(caseId: string): Promise<IndexResult> {
-  try {
-    // Fetch case with paragraphs
-    const case_ = await prisma.case.findUnique({
-      where: { id: caseId },
-      include: { paragraphs: true },
-    });
+export interface RAGResult {
+  answer: string
+  sources: Array<{
+    id: string
+    content: string
+    similarity: number
+    source: string
+  }>
+  processingTime: number
+}
 
-    if (!case_) {
-      throw new Error(`Case not found: ${caseId}`);
-    }
+/**
+ * Execute the RAG pipeline.
+ * 1. Retrieve relevant documents
+ * 2. Build context from retrieved chunks
+ * 3. Generate answer with LLM
+ */
+export async function executeRAG(options: RAGOptions): Promise<RAGResult> {
+  const startTime = Date.now()
 
-    // Delete existing vectors for this case
-    if (case_.vectorIds) {
-      try {
-        const existingIds = JSON.parse(case_.vectorIds);
-        await deleteVectors(existingIds);
-      } catch {
-        // Ignore errors deleting old vectors
-      }
-    }
+  // Step 1: Retrieve documents
+  const retrievalFn = options.useHybrid ? hybridRetrieve : retrieveSimilar
+  const retrieved = await retrievalFn(options.queryEmbedding, {
+    topK: options.topK || 5,
+    threshold: options.threshold || 0.7,
+    source: options.source,
+  })
 
-    // Combine all text content
-    const fullText = [
-      case_.title,
-      case_.summary,
-      case_.court,
-      case_.judges,
-      case_.parties,
-      ...case_.paragraphs.map((p) => p.text),
-    ]
-      .filter(Boolean)
-      .join('\n\n');
+  // Step 2: Build context
+  const context = retrieved
+    .map((r, i) => `[${i + 1}] ${r.content}`)
+    .join("\n\n")
 
-    // Chunk the text
-    const chunks = chunkByParagraphs(caseId, fullText);
+  // Step 3: Generate answer (placeholder - integrate with LLM)
+  const answer = `Based on the retrieved documents:\n\n${context}\n\n[Answer generation to be integrated with LLM]`
 
-    // Generate embeddings and store vectors
-    const vectorIds: string[] = [];
-
-    for (const chunk of chunks) {
-      const embedding = await generateEmbedding(chunk.text);
-      const vectorId = chunk.id;
-
-      await upsertVectors([
-        {
-          id: vectorId,
-          vector: embedding,
-          metadata: {
-            caseId,
-            text: chunk.text,
-            paragraphNumber: chunk.metadata.paragraphNumber,
-          },
-        },
-      ]);
-
-      vectorIds.push(vectorId);
-    }
-
-    // Update case with vector IDs
-    await prisma.case.update({
-      where: { id: caseId },
-      data: {
-        vectorIds: JSON.stringify(vectorIds),
-        indexedAt: new Date(),
-      },
-    });
-
-    return {
-      caseId,
-      chunksIndexed: chunks.length,
-      vectorIds,
-    };
-  } catch (error) {
-    return {
-      caseId,
-      chunksIndexed: 0,
-      vectorIds: [],
-      error: (error as Error).message,
-    };
+  return {
+    answer,
+    sources: retrieved.map((r) => ({
+      id: r.id,
+      content: r.content,
+      similarity: r.similarity,
+      source: r.source,
+    })),
+    processingTime: Date.now() - startTime,
   }
-}
-
-export async function indexAllCases(): Promise<IndexResult[]> {
-  const cases = await prisma.case.findMany({
-    where: {
-      OR: [{ indexedAt: null }, { indexedAt: { lt: new Date(Date.now() - 24 * 60 * 60 * 1000) } }],
-    },
-    select: { id: true },
-  });
-
-  const results: IndexResult[] = [];
-
-  for (const case_ of cases) {
-    const result = await indexCase(case_.id);
-    results.push(result);
-    
-    // Small delay to avoid rate limiting
-    await new Promise((resolve) => setTimeout(resolve, 100));
-  }
-
-  return results;
-}
-
-export async function getIndexStatus(caseId: string) {
-  const case_ = await prisma.case.findUnique({
-    where: { id: caseId },
-    select: { indexedAt: true, vectorIds: true },
-  });
-
-  if (!case_) return null;
-
-  return serialize({
-    isIndexed: !!case_.indexedAt,
-    indexedAt: case_.indexedAt,
-    vectorCount: case_.vectorIds ? JSON.parse(case_.vectorIds).length : 0,
-  });
 }

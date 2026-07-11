@@ -1,30 +1,46 @@
-// src/lib/document-extraction/plain-text.ts
-// Plain text document handling
+/"use server"
 
-export function extractTextFromPlainText(content: string): string {
-  // Clean up common encoding issues
-  let text = content
-    // Normalize line endings
-    .replace(/\r\n/g, '\n')
-    .replace(/\r/g, '\n')
-    // Remove null bytes
-    .replace(/\x00/g, '');
+/**
+ * Plain Text Extractor
+ * Handles extraction from .txt and other plain text files.
+ */
 
-  // Detect and handle UTF-8 BOM
-  if (text.charCodeAt(0) === 0xfeff) {
-    text = text.slice(1);
+export interface PlainTextResult {
+  title: string
+  content: string
+  metadata: {
+    lineCount: number
+    wordCount: number
+    charCount: number
+    encoding: string
   }
-
-  return text.trim();
 }
 
-export function isPlainText(content: string): boolean {
-  // Check if content is mostly printable characters
-  const printableRatio =
-    content.split('').filter((c) => {
-      const code = c.charCodeAt(0);
-      return code >= 32 && code < 127 || code === 9 || code === 10 || code === 13;
-    }).length / content.length;
+/**
+ * Extract content from a plain text file.
+ */
+export async function extractFromPlainText(
+  buffer: ArrayBuffer
+): Promise<PlainTextResult> {
+  // Try UTF-8 first, fallback to Latin-1
+  let content: string
+  try {
+    content = new TextDecoder("utf-8", { fatal: true }).decode(buffer)
+  } catch {
+    content = new TextDecoder("iso-8859-1").decode(buffer)
+  }
 
-  return printableRatio > 0.95;
+  const lines = content.split("\n")
+  const title = lines[0]?.trim() || "Untitled"
+
+  return {
+    title,
+    content: content.trim(),
+    metadata: {
+      lineCount: lines.length,
+      wordCount: content.split(/\s+/).filter(Boolean).length,
+      charCount: content.length,
+      encoding: "utf-8",
+    },
+  }
 }

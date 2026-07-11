@@ -1,20 +1,9 @@
-/**
- * Supabase Client — Browser
- *
- * Use this in client components for auth operations.
- * Automatically handles session refresh and token management.
- *
- * Usage:
- *   import { createBrowserClient } from './client'
- *   const supabase = createBrowserClient()
- *   const { data } = await supabase.auth.getSession()
- */
+import { createBrowserClient } from '@supabase/ssr'
+import { env } from '@/lib/env'
 
-import { createBrowserClient as createSupabaseBrowserClient } from '@supabase/ssr';
-
-export function createBrowserClient() {
-  return createSupabaseBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+export function createClient() {
+  return createBrowserClient(
+    env.NEXT_PUBLIC_SUPABASE_URL!,
+    env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
 }

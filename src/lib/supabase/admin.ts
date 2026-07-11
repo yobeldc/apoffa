@@ -1,26 +1,21 @@
-/**
- * Supabase Admin Client
- *
- * Use this for service-role operations (bypasses RLS).
- * ONLY use server-side — never expose to the browser.
- *
- * Usage:
- *   import { createAdminClient } from './admin'
- *   const admin = createAdminClient()
- *   const { data } = await admin.auth.admin.listUsers()
- */
+import { createClient } from '@supabase/supabase-js'
+import { env } from '@/lib/env'
 
-import { createClient } from '@supabase/supabase-js';
-
+// Admin client for service-role operations
+// Use only in server contexts (API routes, server actions)
 export function createAdminClient() {
+  if (!env.SUPABASE_SERVICE_ROLE_KEY) {
+    throw new Error('SUPABASE_SERVICE_ROLE_KEY is not set')
+  }
+
   return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    env.NEXT_PUBLIC_SUPABASE_URL!,
+    env.SUPABASE_SERVICE_ROLE_KEY,
     {
       auth: {
         autoRefreshToken: false,
         persistSession: false,
       },
     }
-  );
+  )
 }

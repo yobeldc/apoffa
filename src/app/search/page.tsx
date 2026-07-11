@@ -1,14 +1,20 @@
-import { GlobalSearch } from "@/components/global-search";
+/"use client"
 
-interface SearchPageProps {
-  searchParams: { q?: string };
-}
+import { useState } from "react"
 
-export default function SearchPage({ searchParams }: SearchPageProps) {
+export default function SearchPage() {
+  const [query, setQuery] = useState("")
+
   return (
-    <div>
-      <h1 className="mb-6 text-3xl font-bold">Search Cases</h1>
-      <GlobalSearch initialQuery={searchParams.q} />
+    <div className="p-8 max-w-4xl mx-auto">
+      <h1 className="text-2xl font-bold mb-4">Search Documents</h1>
+      <input
+        type="text"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search..."
+        className="w-full px-4 py-2 rounded-md border bg-background"
+      />
     </div>
-  );
+  )
 }

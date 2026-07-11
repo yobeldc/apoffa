@@ -1,23 +1,24 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getIngestionJob } from "@/lib/ingest";
+/import { NextResponse } from "next/server"
+import { createAdminClient } from "@/lib/supabase/admin"
 
+/**
+ * GET /api/ingestion/jobs/:id
+ * Get a specific ingestion job by ID.
+ */
 export async function GET(
-  request: NextRequest,
+  _request: Request,
   { params }: { params: { id: string } }
 ) {
-  try {
-    const job = await getIngestionJob(params.id);
+  const supabase = createAdminClient()
+  const { data, error } = await supabase
+    .from("ingestion_jobs")
+    .select("*")
+    .eq("id", params.id)
+    .single()
 
-    if (!job) {
-      return NextResponse.json({ error: "Job not found" }, { status: 404 });
-    }
-
-    return NextResponse.json(job);
-  } catch (error) {
-    console.error("Job fetch error:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch job" },
-      { status: 500 }
-    );
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 })
   }
+
+  return NextResponse.json(data)
 }

@@ -1,16 +1,34 @@
-import { Skeleton } from '@/components/ui/skeleton';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+/"use client"
 
+/**
+ * Global Loading UI
+ * Shown while route segments are loading.
+ * Features: Animated skeleton screens, progressive loading indicators.
+ */
 export default function Loading() {
   return (
-    <div className="container mx-auto py-8 space-y-6">
-      <div className="space-y-2"><Skeleton className="h-10 w-64" /><Skeleton className="h-4 w-96" /></div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {Array.from({ length: 4 }).map((_, i) => <Card key={i}><CardHeader className="pb-2"><Skeleton className="h-4 w-24" /></CardHeader><CardContent><Skeleton className="h-8 w-16" /></CardContent></Card>)}
+    <div className="min-h-screen flex flex-col items-center justify-center gap-6">
+      {/* Main spinner */}
+      <div className="relative">
+        <div className="w-12 h-12 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
       </div>
-      <Card><CardHeader><Skeleton className="h-6 w-32" /></CardHeader><CardContent className="space-y-4">
-        {Array.from({ length: 5 }).map((_, i) => <div key={i} className="flex gap-4"><Skeleton className="h-10 w-10 rounded-full" /><div className="space-y-2 flex-1"><Skeleton className="h-4 w-full" /><Skeleton className="h-3 w-2/3" /></div></div>)}
-      </CardContent></Card>
+
+      {/* Loading text with animated dots */}
+      <div className="flex flex-col items-center gap-2">
+        <p className="text-lg font-medium text-foreground">Loading</p>
+        <div className="flex gap-1">
+          <span className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: "0ms" }} />
+          <span className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: "150ms" }} />
+          <span className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: "300ms" }} />
+        </div>
+      </div>
+
+      {/* Skeleton placeholder */}
+      <div className="w-full max-w-md space-y-3 mt-8">
+        <div className="h-4 bg-muted rounded animate-pulse w-3/4 mx-auto" />
+        <div className="h-4 bg-muted rounded animate-pulse w-1/2 mx-auto" />
+        <div className="h-4 bg-muted rounded animate-pulse w-2/3 mx-auto" />
+      </div>
     </div>
-  );
+  )
 }

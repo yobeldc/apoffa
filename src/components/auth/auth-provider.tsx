@@ -1,72 +1,144 @@
-import { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+/**
+ * Auth Provider
+ * Wraps the application with Supabase auth state management.
+ * Handles: Session initialization, auth state changes, user context.
+ */
 
-interface User {
-  id: string;
-  email: string;
-  name: string | null;
-  role: string;
-}
+'use client'
+
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
+import { createClient } from '@/lib/supabase/client'
+import type { User, Session } from '@supabase/supabase-js'
+import type { Database } from '@/types/supabase'
+
+// ── Types ───────────────────────────────────────────────────────────
 
 interface AuthContextValue {
-  user: User | null;
-  isLoading: boolean;
-  signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string, name?: string) => Promise<void>;
-  signOut: () => Promise<void>;
+  user: User | null
+  session: Session | null
+  profile: Database['public']['Tables']['profiles']['Row'] | null
+  isLoading: boolean
+  isAuthenticated: boolean
+  signOut: () => Promise<void>
+  refreshProfile: () => Promise<void>
 }
 
-const AuthContext = createContext<AuthContextValue | null>(null);
+// ── Context ─────────────────────────────────────────────────────────
+
+const AuthContext = createContext<AuthContextValue | undefined>(undefined)
+
+// ── Hook ────────────────────────────────────────────────────────────
 
 export function useAuth() {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error('useAuth must be inside AuthProvider');
-  return ctx;
+  const context = useContext(AuthContext)
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider')
+  }
+  return context
 }
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const router = useRouter();
+// ── Provider ────────────────────────────────────────────────────────
+
+interface AuthProviderProps {
+  children: ReactNode
+}
+
+export function AuthProvider({ children }: AuthProviderProps) {
+  const [user, setUser] = useState<User | null>(null)
+  const [session, setSession] = useState<Session | null>(null)
+  const [profile, setProfile] = useState<AuthContextValue['profile']>(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  const supabase = createClient()
+
+  // Fetch user profile from database
+  const fetchProfile = async (userId: string) => {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', userId)
+      .single()
+
+    if (error) {
+      console.warn('Failed to fetch profile:', error)
+      return null
+    }
+
+    return data
+  }
+
+  // Refresh profile manually
+  const refreshProfile = async () => {
+    if (!user) return
+    const profileData = await fetchProfile(user.id)
+    setProfile(profileData)
+  }
+
+  // Sign out handler
+  const signOut = async () => {
+    await supabase.auth.signOut()
+    setUser(null)
+    setSession(null)
+    setProfile(null)
+    // Hard refresh to clear all state
+    window.location.href = '/login'
+  }
 
   useEffect(() => {
-    fetch('/api/auth/me')
-      .then(r => r.ok ? r.json() : null)
-      .then(u => setUser(u))
-      .finally(() => setIsLoading(false));
-  }, []);
+    // Initialize session
+    const initSession = async () => {
+      setIsLoading(true)
 
-  const signIn = useCallback(async (email: string, password: string) => {
-    const res = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    });
-    if (!res.ok) throw new Error('Invalid credentials');
-    const u = await res.json();
-    setUser(u);
-  }, []);
+      const { data: { session: initialSession } } = await supabase.auth.getSession()
 
-  const signUp = useCallback(async (email: string, password: string, name?: string) => {
-    const res = await fetch('/api/auth/signup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password, name }),
-    });
-    if (!res.ok) throw new Error('Signup failed');
-    const u = await res.json();
-    setUser(u);
-  }, []);
+      setSession(initialSession)
+      setUser(initialSession?.user ?? null)
 
-  const signOut = useCallback(async () => {
-    await fetch('/api/auth/logout', { method: 'POST' });
-    setUser(null);
-    router.push('/');
-  }, [router]);
+      if (initialSession?.user) {
+        const profileData = await fetchProfile(initialSession.user.id)
+        setProfile(profileData)
+      }
+
+      setIsLoading(false)
+    }
+
+    initSession()
+
+    // Subscribe to auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, currentSession) => {
+        setSession(currentSession)
+        setUser(currentSession?.user ?? null)
+
+        if (currentSession?.user) {
+          const profileData = await fetchProfile(currentSession.user.id)
+          setProfile(profileData)
+        } else {
+          setProfile(null)
+        }
+
+        setIsLoading(false)
+      }
+    )
+
+    return () => {
+      subscription.unsubscribe()
+    }
+  }, [])
+
+  const value: AuthContextValue = {
+    user,
+    session,
+    profile,
+    isLoading,
+    isAuthenticated: !!user,
+    signOut,
+    refreshProfile,
+  }
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, signIn, signUp, signOut }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
-  );
+  )
 }
